@@ -5,41 +5,100 @@ use std::mem;
 use std::ptr;
 use std::str;
 
-static VERTEX_DATA: [GLfloat; 6] = [0.0, 0.5, 0.5, -0.5, -0.5, -0.5];
+static VERTEX_DATA: [GLfloat; 108] = [
+    1.0, 9.0, 1.0, -1.0, 9.0, 1.0, -1.0, -9.0, 1.0,
+    1.0, -9.0, 1.0, 1.0, 9.0, 1.0, -1.0, -9.0, 1.0,
+    1.0, 9.0, 1.0, 1.0, -9.0, 1.0, 1.0, -9.0, -1.0,
+    1.0, 9.0, -1.0, 1.0, 9.0, 1.0, 1.0, -9.0, -1.0,
+    1.0, 9.0, 1.0, 1.0, 9.0, -1.0, -1.0, 9.0, -1.0,
+    -1.0, 9.0, 1.0, 1.0, 9.0, 1.0, -1.0, 9.0, -1.0,
+    -1.0, -9.0, -1.0, -1.0, 9.0, -1.0, 1.0, 9.0, -1.0,
+    1.0, -9.0, -1.0, -1.0, -9.0, -1.0, 1.0, 9.0, -1.0,
+    -1.0, -9.0, -1.0, -1.0, -9.0, 1.0, -1.0, 9.0, 1.0,
+    -1.0, 9.0, -1.0, -1.0, -9.0, -1.0, -1.0, 9.0, 1.0,
+    -1.0, -9.0, -1.0, 1.0, -9.0, -1.0, 1.0, -9.0, 1.0,
+    -1.0, -9.0, 1.0, -1.0, -9.0, -1.0, 1.0, -9.0, 1.0,
+];
 
-static VS_SRC: &'static str = "
-#version 150
-in vec2 position;
-void main() {
-    gl_Position = vec4(position, 0.0, 1.0);
+static VS_SRC: &'static str = "#version 330
+uniform float n;
+uniform float rot;
+// Vertex position in the mesh
+in vec3 p;
+// Vertex position in the instance
+out vec4 f;
+// Projection matrix
+const mat4 P=mat4(
+    1.299,0.,0.,0.,
+    0.,1.732,0.,0.,
+    0.,0.,-1.002,-1.,
+    0.,0.,-2.002,0.);
+// Compute the translation of the instance
+vec3 t(float id,float o){
+    float x=-707.+mod(id,707.)*2.;
+    float z=-707.+(id/707.)*2.;
+    // Make offset discrete in increments of the cube's width.
+    float Z=z+floor(o/2.)*2.;
+    return vec3(
+        x,
+        floor(
+            // y
+            9.*sin(x/30.)*sin(Z/20.)
+            // Hills and valleys
+            +99.*sin(x/99.)*sin(Z/299.)
+            // Random noise, constant for a given (x, Z)
+            +4.*fract(sin(Z)*99.)),
+        z-mod(o,2.));
+}
+void main(){
+    // The offset of the world
+    float o=float(n)/99.;
+    // The position of the camera
+    float y=9.*sin(-o/30.)+30.;
+    // Yaw
+    float a=float(rot)*0.0063;
+    // Pitch
+    float b=float(381.0)*0.0016-.8;
+    f = P * mat4(
+        cos(a),sin(a)*sin(b),-sin(a)*cos(b),0.,
+        0.,cos(b),sin(b),0.,
+        sin(a),-cos(a)*sin(b),cos(a)*cos(b),0.,
+        0.,-y,0.,1.)*vec4(p+t(float(gl_InstanceID),o),1.);
+    gl_Position=f;
 }";
 
-static FS_SRC: &'static str = "
-#version 150
-out vec4 out_color;
-void main() {
-    out_color = vec4(1.0, 1.0, 1.0, 1.0);
+static FS_SRC: &'static str = "#version 330
+precision lowp float;
+// Fragment position
+in vec4 f;
+// Fragment color
+out vec4 c;
+void main(){
+    c=mix(
+        // Normal of the fragment
+        vec4(normalize(cross(dFdx(f).xyz,dFdy(f).xyz)),1.),
+        // Fog color
+        vec4(1.,.7,0.,1.),
+        // Divide length by max fog distance
+        clamp(length(f-vec4(0.))/999.,0.,1.));
 }";
 
 fn compile_shader(src: &str, ty: GLenum) -> GLuint {
     let shader;
     unsafe {
         shader = gl::CreateShader(ty);
-        // Attempt to compile the shader
         let c_str = CString::new(src.as_bytes()).unwrap();
         gl::ShaderSource(shader, 1, &c_str.as_ptr(), ptr::null());
         gl::CompileShader(shader);
 
-        // Get the compile status
         let mut status = gl::FALSE as GLint;
         gl::GetShaderiv(shader, gl::COMPILE_STATUS, &mut status);
 
-        // Fail on error
         if status != (gl::TRUE as GLint) {
             let mut len = 0;
             gl::GetShaderiv(shader, gl::INFO_LOG_LENGTH, &mut len);
             let mut buf = Vec::with_capacity(len as usize);
-            buf.set_len((len as usize) - 1); // subtract 1 to skip the trailing null character
+            buf.set_len((len as usize) - 1);
             gl::GetShaderInfoLog(
                 shader,
                 len,
@@ -63,11 +122,11 @@ fn link_program(vs: GLuint, fs: GLuint) -> GLuint {
         gl::AttachShader(program, vs);
         gl::AttachShader(program, fs);
         gl::LinkProgram(program);
-        // Get the link status
+
         let mut status = gl::FALSE as GLint;
         gl::GetProgramiv(program, gl::LINK_STATUS, &mut status);
 
-        // Fail on error
+
         if status != (gl::TRUE as GLint) {
             let mut len: GLint = 0;
             gl::GetProgramiv(program, gl::INFO_LOG_LENGTH, &mut len);
@@ -105,14 +164,22 @@ fn main() {
 
     gl::load_with(|symbol| gl_window.get_proc_address(symbol) as *const _);
 
-    let vs = compile_shader(VS_SRC, gl::VERTEX_SHADER);
-    let fs = compile_shader(FS_SRC, gl::FRAGMENT_SHADER);
-    let program = link_program(vs, fs);
-
     let mut vao = 0;
     let mut vbo = 0;
 
     unsafe {
+        let vs = compile_shader(VS_SRC, gl::VERTEX_SHADER);
+        let fs = compile_shader(FS_SRC, gl::FRAGMENT_SHADER);
+        let program = link_program(vs, fs);
+
+        gl::UseProgram(program);
+
+        let uniform_now = gl::GetUniformLocation(program, CString::new("n").unwrap().as_ptr());
+        let uniform_rot = gl::GetUniformLocation(program, CString::new("rot").unwrap().as_ptr());
+
+        // gl::Enable(gl::DEPTH_TEST);
+        gl::Enable(gl::CULL_FACE);
+
         gl::GenVertexArrays(1, &mut vao);
         gl::BindVertexArray(vao);
 
@@ -125,47 +192,45 @@ fn main() {
             gl::STATIC_DRAW,
         );
 
-        gl::UseProgram(program);
-        gl::BindFragDataLocation(program, 0, CString::new("out_color").unwrap().as_ptr());
+        gl::EnableVertexAttribArray(0);
 
-        let pos_attr = gl::GetAttribLocation(program, CString::new("position").unwrap().as_ptr());
-        gl::EnableVertexAttribArray(pos_attr as GLuint);
         gl::VertexAttribPointer(
-            pos_attr as GLuint,
-            2,
-            gl::FLOAT,
-            gl::FALSE as GLboolean,
             0,
-            ptr::null(),
+            3,
+            gl::FLOAT,
+            gl::FALSE,
+            0,
+            ptr::null::<GLvoid>().add(0) as *const _,
         );
-    }
 
-    events_loop.run_forever(|event| {
-        use glutin::{ControlFlow, Event, WindowEvent};
+        let mut now_uni_content: f32 = 10.0;
+        let mut rot: f32 = 0.0;
+        let mut closed = false;
 
-        if let Event::WindowEvent { event, .. } = event {
-            if let WindowEvent::CloseRequested = event {
-                return ControlFlow::Break;
-            }
+        while !closed {
+            gl::ClearColor(1.0, 0.7, 0.0, 1.0);
+                gl::Clear(gl::COLOR_BUFFER_BIT);
+
+                now_uni_content -= 100.0;
+                // rot += 1.0;
+
+                gl::Uniform1f(uniform_now, now_uni_content);
+                gl::Uniform1f(uniform_rot, rot);
+
+                gl::DrawArraysInstanced(gl::TRIANGLES, 0, 36, 707 * 707);
+
+                gl_window.swap_buffers().unwrap();
+
+            events_loop.poll_events(|event| {
+                use glutin::{Event, WindowEvent};
+
+                if let Event::WindowEvent { event, .. } = event {
+                    if let WindowEvent::CloseRequested = event {
+                        closed = true;
+                    }
+                }
+            });
         }
 
-        unsafe {
-            gl::ClearColor(0.3, 0.3, 0.3, 1.0);
-            gl::Clear(gl::COLOR_BUFFER_BIT);
-
-            gl::DrawArrays(gl::TRIANGLES, 0, 3);
-        }
-
-        gl_window.swap_buffers().unwrap();
-
-        ControlFlow::Continue
-    });
-
-    unsafe {
-        gl::DeleteProgram(program);
-        gl::DeleteShader(fs);
-        gl::DeleteShader(vs);
-        gl::DeleteBuffers(1, &vbo);
-        gl::DeleteVertexArrays(1, &vao);
     }
 }
