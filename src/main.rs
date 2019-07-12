@@ -35,8 +35,8 @@ const mat4 P=mat4(
     0.,0.,-2.002,0.);
 // Compute the translation of the instance
 vec3 t(float id,float o){
-    float x=-707.+mod(id,707.)*2.;
-    float z=-707.+(id/707.)*2.;
+    float x=-300.+mod(id,300.)*2.;
+    float z=-300.+(id/300.)*2.;
     // Make offset discrete in increments of the cube's width.
     float Z=z+floor(o/2.)*2.;
     return vec3(
@@ -217,7 +217,7 @@ fn main() {
                 gl::Uniform1f(uniform_now, now_uni_content);
                 gl::Uniform1f(uniform_rot, rot);
 
-                gl::DrawArraysInstanced(gl::TRIANGLES, 0, 36, 707 * 707);
+                gl::DrawArraysInstanced(gl::TRIANGLES, 0, 36, 300 * 300);
 
                 gl_window.swap_buffers().unwrap();
 

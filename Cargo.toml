@@ -1,5 +1,5 @@
 [package]
-name = "supe_rs_disco"
+name = "rs-tofu"
 version = "0.1.0"
 authors = ["Michał Budzyński <michal@virtualdesign.pl>"]
 edition = "2018"
