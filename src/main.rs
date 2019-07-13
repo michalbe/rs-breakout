@@ -1,4 +1,6 @@
 mod game;
+mod components;
+mod math;
 
 use crate::game::*;
 
