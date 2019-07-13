@@ -1,3 +1,4 @@
+#[derive(Clone, Copy)]
 pub struct Mat4 {
     pub m00: f64,
     pub m01: f64,
