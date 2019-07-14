@@ -15,6 +15,8 @@ pub struct Transform {
     translation: Vec3,
     // local rotation relative to the parent
     rotation: Quat,
+    // local scale relative to the parent
+    scale: Vec3,
 }
 
 impl Transform {
@@ -24,6 +26,7 @@ impl Transform {
             self_mat: Mat4::new(),
             translation: Vec3::new(),
             rotation: Quat::new(),
+            scale: Vec3::new(),
         }
     }
 }
