@@ -47,19 +47,17 @@ impl Transform {
         }
     }
 
-    pub fn new(translation: Option<Vec3>, rotation: Option<Quat>, scale: Option<Vec3>) -> fn(&mut Game, usize) -> () {
-        let initial_translation = match translation {
-            Some(translation_value) => { translation_value },
-            None => { Vec3::empty() }
-        };
-
-        fn transform_mixin(game: &mut Game, entity: usize) -> () {
+    pub fn new(translation: Option<Vec3>, rotation: Option<Quat>, scale: Option<Vec3>) -> impl Fn(&mut Game, usize) -> () {
+        move |game: &mut Game, entity: usize| -> () {
             game.world[entity] = 2;
 
             game.transform[entity] = Transform {
                 world: Mat4::empty(),
                 self_mat: Mat4::empty(),
-                translation: initial_translation,
+                translation: match translation {
+                    Some(translation_value) => { translation_value },
+                    None => { Vec3::empty() }
+                },
                 rotation: Quat::empty(),
                 scale: Vec3::empty(),
 
@@ -69,7 +67,5 @@ impl Transform {
                 dirty: true,
             };
         }
-
-        transform_mixin
     }
 }
