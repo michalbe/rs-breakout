@@ -27,11 +27,11 @@ pub struct Transform {
 impl Transform {
     pub fn new() -> Transform {
         Transform {
-            world: Mat4::new(),
-            self_mat: Mat4::new(),
-            translation: Vec3::new(),
-            rotation: Quat::new(),
-            scale: Vec3::new(),
+            world: Mat4::empty(),
+            self_mat: Mat4::empty(),
+            translation: Vec3::empty(),
+            rotation: Quat::empty(),
+            scale: Vec3::empty(),
 
             entity_id: 0,
             parent: None,

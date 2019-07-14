@@ -7,7 +7,7 @@ pub struct Quat {
 }
 
 impl Quat {
-    pub fn new() -> Quat {
+    pub fn empty() -> Quat {
         Quat {
             x: 0.0,
             y: 0.0,

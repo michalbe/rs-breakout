@@ -19,7 +19,7 @@ pub struct Mat4 {
 }
 
 impl Mat4 {
-    pub fn new() -> Mat4 {
+    pub fn empty() -> Mat4 {
         Mat4 {
             m00: 1.0,
             m01: 0.0,
