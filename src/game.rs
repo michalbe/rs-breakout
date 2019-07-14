@@ -16,4 +16,15 @@ impl Game {
             transform: [Transform::empty(); MAX_ENTITIES]
         }
     }
+
+    fn create_entity(&mut self, mask: i32) -> usize {
+        for i in 0..MAX_ENTITIES {
+            if (self.world[i] == 0) {
+                self.world[i] = mask;
+                return i;
+            }
+        }
+
+        panic!("No more entities available!");
+    }
 }
