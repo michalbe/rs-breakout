@@ -1,7 +1,10 @@
-use crate::math::{
-    mat4::Mat4,
-    vec3::Vec3,
-    quat::Quat,
+use crate::{
+    math::{
+        mat4::Mat4,
+        vec3::Vec3,
+        quat::Quat,
+    },
+    game::Game,
 };
 
 #[derive(Clone, Copy)]
@@ -19,13 +22,17 @@ pub struct Transform {
     pub scale: Vec3,
 
     pub entity_id: usize,
+
+    // TODO: in original Goodluck Trannsform::parent is a Transform
+    // instance. Will this work as well?
     pub parent: Option<usize>,
+    // TODO: This needs a little bit more thinking.
     // pub children: Vec<Transform>,
     pub dirty: bool,
 }
 
 impl Transform {
-    pub fn new() -> Transform {
+    pub fn empty() -> Transform {
         Transform {
             world: Mat4::empty(),
             self_mat: Mat4::empty(),
@@ -38,5 +45,31 @@ impl Transform {
             // children: Default::default(),
             dirty: true,
         }
+    }
+
+    pub fn new(translation: Option<Vec3>, rotation: Option<Quat>, scale: Option<Vec3>) -> fn(&mut Game, usize) -> () {
+        let initial_translation = match translation {
+            Some(translation_value) => { translation_value },
+            None => { Vec3::empty() }
+        };
+
+        fn transform_mixin(game: &mut Game, entity: usize) -> () {
+            game.world[entity] = 2;
+
+            game.transform[entity] = Transform {
+                world: Mat4::empty(),
+                self_mat: Mat4::empty(),
+                translation: initial_translation,
+                rotation: Quat::empty(),
+                scale: Vec3::empty(),
+
+                entity_id: entity,
+                parent: None,
+                // children: Default::default(),
+                dirty: true,
+            };
+        }
+
+        transform_mixin
     }
 }

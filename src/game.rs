@@ -13,7 +13,7 @@ impl Game {
     pub fn new() -> Game {
         Game {
             world: [0; MAX_ENTITIES],
-            transform: [Transform::new(); MAX_ENTITIES]
+            transform: [Transform::empty(); MAX_ENTITIES]
         }
     }
 }
