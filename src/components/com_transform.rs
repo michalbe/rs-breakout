@@ -7,16 +7,21 @@ use crate::math::{
 #[derive(Clone, Copy)]
 pub struct Transform {
     // Matrix relative to the world
-    world: Mat4,
+    pub world: Mat4,
     // World to self matrix
-    self_mat: Mat4,
+    pub self_mat: Mat4,
 
     // local translation relative to the parent
-    translation: Vec3,
+    pub translation: Vec3,
     // local rotation relative to the parent
-    rotation: Quat,
+    pub rotation: Quat,
     // local scale relative to the parent
-    scale: Vec3,
+    pub scale: Vec3,
+
+    pub entity_id: usize,
+    pub parent: Option<usize>,
+    // pub children: Vec<Transform>,
+    pub dirty: bool,
 }
 
 impl Transform {
@@ -27,6 +32,11 @@ impl Transform {
             translation: Vec3::new(),
             rotation: Quat::new(),
             scale: Vec3::new(),
+
+            entity_id: 0,
+            parent: None,
+            // children: Default::default(),
+            dirty: true,
         }
     }
 }
