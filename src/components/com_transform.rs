@@ -58,7 +58,10 @@ impl Transform {
                     Some(translation_value) => { translation_value },
                     None => { Vec3::empty() }
                 },
-                rotation: Quat::empty(),
+                rotation: match rotation {
+                    Some(rotation_value) => { rotation_value },
+                    None => { Quat::empty() }
+                },
                 scale: Vec3::empty(),
 
                 entity_id: entity,
