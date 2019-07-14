@@ -1,4 +1,7 @@
-use crate::components::com_transform::Transform;
+use crate::{
+    blueprints::blu_common::Blueprint,
+    components::com_transform::Transform,
+};
 
 const MAX_ENTITIES: usize = 10000;
 
@@ -27,4 +30,16 @@ impl Game {
 
         panic!("No more entities available!");
     }
+
+   pub fn add (&mut self, blueprint: &Blueprint) -> usize {
+        let entity = self.create_entity(2);
+        let transform_mixin = Transform::new(blueprint.translation, blueprint.rotation, blueprint.scale);
+        transform_mixin(self, entity);
+
+        // for mixin in 0..len(blueprint.using) {
+        //     mixing(self, entity);
+        // }
+
+        entity
+   }
 }
