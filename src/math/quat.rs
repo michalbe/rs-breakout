@@ -8,11 +8,10 @@ pub struct Quat {
 
 impl Quat {
     pub fn empty() -> Quat {
-        Quat {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-            w: 1.0,
-        }
+        Quat::new(0.0, 0.0, 0.0, 1.0)
+    }
+
+    pub fn new(x: f64, y: f64, z: f64, w: f64) -> Quat {
+        Quat { x, y, z, w,}
     }
 }
