@@ -11,15 +11,15 @@ use crate::{
 fn main() {
     let mut game = Game::new();
 
-    let blueprint = Blueprint {
+    let mut blueprint = Blueprint {
         translation: None,
         rotation: None,
         scale: None,
-        // using: vec![],
+        using: vec![],
     };
 
-    let entity_1 = game.add(&blueprint);
-    let entity_2 = game.add(&blueprint);
+    let entity_1 = game.add(&mut blueprint);
+    let entity_2 = game.add(&mut blueprint);
 
     println!("{}, {}", entity_1, entity_2);
 }

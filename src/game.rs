@@ -31,14 +31,14 @@ impl Game {
         panic!("No more entities available!");
     }
 
-   pub fn add (&mut self, blueprint: &Blueprint) -> usize {
+   pub fn add (&mut self, blueprint: &mut Blueprint) -> usize {
         let entity = self.create_entity(2);
         let transform_mixin = Transform::new(blueprint.translation, blueprint.rotation, blueprint.scale);
         transform_mixin(self, entity);
 
-        // for mixin in 0..len(blueprint.using) {
-        //     mixing(self, entity);
-        // }
+        for mixin in blueprint.using.iter_mut() {
+            mixin(self, entity);
+        }
 
         entity
    }
