@@ -17,9 +17,9 @@ impl Game {
         }
     }
 
-    fn create_entity(&mut self, mask: i32) -> usize {
+    pub fn create_entity(&mut self, mask: i32) -> usize {
         for i in 0..MAX_ENTITIES {
-            if (self.world[i] == 0) {
+            if self.world[i] == 0 {
                 self.world[i] = mask;
                 return i;
             }
