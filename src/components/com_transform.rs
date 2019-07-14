@@ -62,8 +62,10 @@ impl Transform {
                     Some(rotation_value) => { rotation_value },
                     None => { Quat::empty() }
                 },
-                scale: Vec3::empty(),
-
+                scale: match scale {
+                    Some(scale_value) => { scale_value },
+                    None => { Vec3::empty() }
+                },
                 entity_id: entity,
                 parent: None,
                 // children: Default::default(),
