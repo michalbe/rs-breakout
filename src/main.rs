@@ -1,5 +1,6 @@
 mod game;
 mod math;
+mod materials;
 mod components;
 mod blueprints;
 
