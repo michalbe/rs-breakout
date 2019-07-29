@@ -4,6 +4,7 @@ use std::ptr;
 use std::str;
 
 pub struct Shape {
+    pub key: String,
     pub vertices: Vec<GLfloat>,
     pub indices: Vec<GLint>,
     pub normals: Vec<GLfloat>,
