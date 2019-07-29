@@ -1,6 +1,9 @@
 use crate::{
     blueprints::blu_common::Blueprint,
-    components::com_transform::Transform,
+    components::{
+        Components,
+        com_transform::Transform,
+    }
 };
 
 const MAX_ENTITIES: usize = 100;
@@ -32,7 +35,7 @@ impl Game {
     }
 
    pub fn add (&mut self, blueprint: &mut Blueprint) -> usize {
-        let entity = self.create_entity(2);
+        let entity = self.create_entity(Components::Transform as i32);
         let transform_mixin = Transform::new(blueprint.translation, blueprint.rotation, blueprint.scale);
         transform_mixin(self, entity);
 

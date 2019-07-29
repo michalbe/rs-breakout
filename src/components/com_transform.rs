@@ -5,6 +5,7 @@ use crate::{
         quat::Quat,
     },
     game::Game,
+    components::Components,
 };
 
 #[derive(Clone, Copy)]
@@ -49,7 +50,7 @@ impl Transform {
 
     pub fn new(translation: Option<Vec3>, rotation: Option<Quat>, scale: Option<Vec3>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
-            game.world[entity] = 2;
+            game.world[entity] = Components::Transform as i32;
 
             game.transform[entity] = Transform {
                 world: Mat4::empty(),
