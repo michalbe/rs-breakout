@@ -6,6 +6,7 @@ use crate::{
     }
 };
 
+
 const MAX_ENTITIES: usize = 100;
 
 pub struct Game {
@@ -70,10 +71,14 @@ fn game_add_test() {
     let entity_1 = game.add(&mut blueprint);
     let entity_2 = game.add(&mut blueprint);
 
-    assert_eq!(entity_1, 0);
-    assert_eq!(entity_2, 1);
+    let mask = 1 << Components::Transform as i32;
+
+    assert_eq!(entity_1, 0, "proper entity index created");
+    assert_eq!(entity_2, 1, "proper entity index created");
 
     for i in vec![entity_1, entity_2] {
+        assert!(game.world[i] & mask == mask, "proper entity component mask created");
+
         assert_eq!(game.transform[i].translation.x, translation.x, "translation on entity fits the one in blueprint");
         assert_eq!(game.transform[i].translation.y, translation.y, "translation on entity fits the one in blueprint");
         assert_eq!(game.transform[i].translation.z, translation.z, "translation on entity fits the one in blueprint");

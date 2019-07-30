@@ -50,7 +50,7 @@ impl Transform {
 
     pub fn new(translation: Option<Vec3>, rotation: Option<Quat>, scale: Option<Vec3>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
-            game.world[entity] = Components::Transform as i32;
+            game.world[entity] |= 1 << Components::Transform as i32;
 
             game.transform[entity] = Transform {
                 world: Mat4::empty(),

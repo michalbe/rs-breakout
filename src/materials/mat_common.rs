@@ -1,7 +1,10 @@
 use gl::types::*;
-use std::ffi::CString;
-use std::ptr;
-use std::str;
+use std::{
+    ffi::CString,
+    ptr,
+    str,
+    collections::HashMap,
+};
 
 pub struct Shape {
     pub key: String,
@@ -10,10 +13,11 @@ pub struct Shape {
     pub normals: Vec<GLfloat>,
 }
 
-pub struct Material {
+pub struct Material<'a> {
     pub mode: GLint,
     pub program: GLuint,
     pub uniforms: Vec<GLint>,
+    pub vaos: HashMap<&'a String, GLint>,
 }
 
 pub fn link_program(vs: GLuint, fs: GLuint) -> GLuint {

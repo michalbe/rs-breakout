@@ -4,9 +4,9 @@ use crate::{
     materials::mat_common::Material,
 };
 
-pub struct RenderBasic {
+pub struct RenderBasic<'a> {
     kind: RenderKind,
-    material: Material,
+    material: Material<'a>,
     vao: GLuint,
     count: i32,
     color: [f32; 4]
