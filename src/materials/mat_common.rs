@@ -13,11 +13,22 @@ pub struct Shape {
     pub normals: Vec<GLfloat>,
 }
 
-pub struct Material<'a> {
+pub struct Material {
     pub mode: GLint,
     pub program: GLuint,
     pub uniforms: Vec<GLint>,
-    pub vaos: HashMap<&'a String, GLint>,
+    // pub vaos: HashMap<&'a String, GLint>,
+}
+
+impl Material {
+    pub fn new() -> Material {
+        Material {
+            mode: 0,
+            program: 0,
+            uniforms: Vec::new(),
+            // vaos: HashMap::new(),
+        }
+    }
 }
 
 pub fn link_program(vs: GLuint, fs: GLuint) -> GLuint {

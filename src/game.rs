@@ -3,6 +3,7 @@ use crate::{
     components::{
         Components,
         com_transform::Transform,
+        com_render::RenderKind,
     }
 };
 
@@ -13,14 +14,16 @@ pub struct Game {
     pub world: [i32; MAX_ENTITIES],
 
     // Components here
-    pub transform: [Transform; MAX_ENTITIES]
+    pub transform: Vec<Option<Transform>>,
+    // pub render: [RenderKind; MAX_ENTITIES],
 }
 
 impl Game {
     pub fn new() -> Game {
         Game {
             world: [0; MAX_ENTITIES],
-            transform: [Transform::empty(); MAX_ENTITIES]
+            transform: vec![None; MAX_ENTITIES],
+            // render: Vec::with_capacity(MAX_ENTITIES),
         }
     }
 
@@ -79,17 +82,17 @@ fn game_add_test() {
     for i in vec![entity_1, entity_2] {
         assert!(game.world[i] & mask == mask, "proper entity component mask created");
 
-        assert_eq!(game.transform[i].translation.x, translation.x, "translation on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].translation.y, translation.y, "translation on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].translation.z, translation.z, "translation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().translation.x, translation.x, "translation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().translation.y, translation.y, "translation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().translation.z, translation.z, "translation on entity fits the one in blueprint");
 
-        assert_eq!(game.transform[i].rotation.x, rotation.x, "rotation on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].rotation.y, rotation.y, "rotation on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].rotation.z, rotation.w, "rotation on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].rotation.w, rotation.w, "rotation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().rotation.x, rotation.x, "rotation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().rotation.y, rotation.y, "rotation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().rotation.z, rotation.w, "rotation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().rotation.w, rotation.w, "rotation on entity fits the one in blueprint");
 
-        assert_eq!(game.transform[i].scale.x, scale.x, "scale on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].scale.y, scale.y, "scale on entity fits the one in blueprint");
-        assert_eq!(game.transform[i].scale.z, scale.z, "scale on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().scale.x, scale.x, "scale on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().scale.y, scale.y, "scale on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().scale.z, scale.z, "scale on entity fits the one in blueprint");
     }
 }

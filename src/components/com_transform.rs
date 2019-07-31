@@ -52,7 +52,7 @@ impl Transform {
         move |game: &mut Game, entity: usize| -> () {
             game.world[entity] |= 1 << Components::Transform as i32;
 
-            game.transform[entity] = Transform {
+            game.transform[entity] = Some(Transform {
                 world: Mat4::empty(),
                 self_mat: Mat4::empty(),
                 translation: match translation {
@@ -71,7 +71,7 @@ impl Transform {
                 parent: None,
                 // children: Default::default(),
                 dirty: true,
-            };
+            });
         }
     }
 }
