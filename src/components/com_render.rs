@@ -1,12 +1,13 @@
 use crate::{
-    components::com_render_basic::*,
+    components::com_render_basic::RenderBasic,
 };
 
 #[derive(Clone, Copy)]
 pub enum RenderKind {
-    RenderBasic
+   Basic,
+   Shaded,
 }
 
-pub trait Render {
-
+pub enum Render {
+    RenderBasic(RenderBasic)
 }
