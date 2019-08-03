@@ -72,7 +72,7 @@ fn game_add_test() {
     let scale = Vec3::new(2.0, 2.0, 2.0);
 
     let shape = Shape {
-        key: String::from("shape"),
+        key: 0,
         indices: vec![],
         vertices: vec![],
         normals: vec![],

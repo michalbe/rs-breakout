@@ -7,7 +7,7 @@ use std::{
 };
 
 pub struct Shape {
-    pub key: String,
+    pub key: usize,
     pub vertices: Vec<GLfloat>,
     pub indices: Vec<GLint>,
     pub normals: Vec<GLfloat>,
@@ -17,7 +17,6 @@ pub struct Material {
     pub mode: GLint,
     pub program: GLuint,
     pub uniforms: Vec<GLint>,
-    // pub vaos: HashMap<&'a String, GLint>,
 }
 
 impl Material {
@@ -26,7 +25,6 @@ impl Material {
             mode: 0,
             program: 0,
             uniforms: Vec::new(),
-            // vaos: HashMap::new(),
         }
     }
 }
