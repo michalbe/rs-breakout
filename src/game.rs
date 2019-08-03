@@ -1,3 +1,4 @@
+use crate::materials::mat_common::Material;
 use crate::materials::mat_common::Shape;
 use crate::{
     blueprints::blu_common::Blueprint,
@@ -73,6 +74,12 @@ fn game_add_test() {
         normals: vec![],
     };
 
+    let material = Material {
+        mode: 0,
+        program: 0,
+        uniforms: vec![],
+    };
+
     let mut blueprint_without_mixins = Blueprint {
         translation: Some(translation),
         rotation: Some(rotation),
@@ -85,7 +92,7 @@ fn game_add_test() {
         rotation: Some(rotation),
         scale: Some(scale),
         using: vec![
-            Box::new(RenderBasic::new(RenderKind::Basic, shape, [1.0, 0.0, 1.0, 0.0]))
+            Box::new(RenderBasic::new(&material, &shape, [1.0, 0.0, 1.0, 0.0]))
         ],
     };
 

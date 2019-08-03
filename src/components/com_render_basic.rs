@@ -26,7 +26,7 @@ impl RenderBasic {
         }
     }
 
-    pub fn new(material_type: RenderKind, shape: Shape, color: [f32; 4]) -> impl Fn(&mut Game, usize) -> () {
+    pub fn new(material_type: &Material, shape: &Shape, color: [f32; 4]) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
             // vaos & materials
             game.world[entity] |= 1 << Components::Render as i32;
