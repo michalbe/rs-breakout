@@ -1,5 +1,3 @@
-use crate::materials::mat_common::Material;
-use crate::materials::mat_common::Shape;
 use crate::{
     blueprints::blu_common::Blueprint,
     components::{
@@ -57,9 +55,15 @@ impl Game {
 
 #[test]
 fn game_add_test() {
-    use crate::math::{
-        vec3::Vec3,
-        quat::Quat,
+    use crate::{
+        math::{
+            vec3::Vec3,
+            quat::Quat,
+        },
+        materials::mat_common::{
+            Material,
+            Shape,
+        }
     };
 
     let mut game = Game::new();
