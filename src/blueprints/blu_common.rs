@@ -1,14 +1,13 @@
 use crate::{
     math::{
-        vec3::Vec3,
-        quat::Quat,
+        vec2::Vec2,
     },
     game::Game,
 };
 
 pub struct Blueprint {
-    pub translation: Option<Vec3>,
-    pub rotation: Option<Quat>,
-    pub scale: Option<Vec3>,
+    pub translation: Option<Vec2>,
+    pub rotation: Option<f32>,
+    pub scale: Option<Vec2>,
     pub using: Vec<Box<dyn Fn(&mut Game, usize) -> ()>>,
 }
