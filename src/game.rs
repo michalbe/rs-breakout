@@ -1,10 +1,11 @@
 use crate::{
     blueprints::blu_common::Blueprint,
     components::{
-        Components,
-        com_transform::Transform,
-        com_render::{RenderKind, Render},
-        com_render_basic::RenderBasic,
+        Has,
+        Component,
+        com_transform2d::Transform2d,
+        // com_render::{RenderKind, Render},
+        // com_render_basic::RenderBasic,
     }
 };
 
@@ -15,7 +16,7 @@ pub struct Game {
     pub world: Vec<i32>,
 
     // Components here
-    pub transform: Vec<Option<Transform>>,
+    pub transform: Vec<Option<Transform2d>>,
     // pub render: [RenderKind; MAX_ENTITIES],
 }
 
@@ -28,10 +29,9 @@ impl Game {
         }
     }
 
-    fn create_entity(&mut self, mask: i32) -> usize {
+    fn create_entity(&mut self) -> usize {
         for i in 0..MAX_ENTITIES {
             if self.world[i] == 0 {
-                self.world[i] = mask;
                 return i;
             }
         }
@@ -40,8 +40,8 @@ impl Game {
     }
 
    pub fn add(&mut self, blueprint: &mut Blueprint) -> usize {
-        let entity = self.create_entity(Components::Transform as i32);
-        let transform_mixin = Transform::new(blueprint.translation, blueprint.rotation, blueprint.scale);
+        let entity = self.create_entity();
+        let transform_mixin = Transform2d::new(blueprint.translation, blueprint.rotation, blueprint.scale);
         transform_mixin(self, entity);
 
         for mixin in blueprint.using.iter_mut() {
