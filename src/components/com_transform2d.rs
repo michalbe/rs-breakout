@@ -4,7 +4,7 @@ use crate::{
         vec2::Vec2,
     },
     game::Game,
-    components::Components,
+    components::Has,
 };
 
 #[derive(Clone, Copy)]
@@ -49,7 +49,7 @@ impl Transform2d {
 
     pub fn new(translation: Option<Vec2>, rotation: Option<f32>, scale: Option<Vec2>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
-            game.world[entity] |= 1 << Components::Transform as i32;
+            game.world[entity] |= Has::Transform as u32;
 
             game.transform[entity] = Some(Transform2d {
                 world: Mat2d::empty(),

@@ -13,7 +13,7 @@ use crate::{
 const MAX_ENTITIES: usize = 10000;
 
 pub struct Game {
-    pub world: Vec<i32>,
+    pub world: Vec<u32>,
 
     // Components here
     pub transform: Vec<Option<Transform2d>>,
@@ -53,79 +53,56 @@ impl Game {
 }
 
 
-// #[test]
-// fn game_add_test() {
-//     use crate::{
-//         math::{
-//             vec3::Vec3,
-//             quat::Quat,
-//         },
-//         materials::mat_common::{
-//             Material,
-//             Shape,
-//         }
-//     };
+#[test]
+fn game_add_test() {
+    use crate::{
+        math::{
+            vec2::Vec2,
+        },
+    };
 
-//     let mut game = Game::new();
-//     let translation = Vec3::new(1.0, 2.0, 3.0);
-//     let rotation = Quat::new(0.0, 1.0, 0.0, 0.0);
-//     let scale = Vec3::new(2.0, 2.0, 2.0);
+    let mut game = Game::new();
+    let translation = Vec2::new(1.0, 2.0);
+    let rotation = 0.0;
+    let scale = Vec2::new(2.0, 2.0);
 
-//     let shape = Shape {
-//         key: 0,
-//         indices: vec![],
-//         vertices: vec![],
-//         normals: vec![],
-//     };
+    let mut blueprint_without_mixins = Blueprint {
+        translation: Some(translation),
+        rotation: Some(rotation),
+        scale: Some(scale),
+        using: vec![],
+    };
 
-//     let material = Material {
-//         mode: 0,
-//         program: 0,
-//         uniforms: vec![],
-//     };
+    let mut blueprint_with_mixins = Blueprint {
+        translation: Some(translation),
+        rotation: Some(rotation),
+        scale: Some(scale),
+        using: vec![
+            // Box::new(RenderBasic::new(&material, &shape, [1.0, 0.0, 1.0, 0.0]))
+        ],
+    };
 
-//     let mut blueprint_without_mixins = Blueprint {
-//         translation: Some(translation),
-//         rotation: Some(rotation),
-//         scale: Some(scale),
-//         using: vec![],
-//     };
+    let entity_1 = game.add(&mut blueprint_without_mixins);
+    let entity_2 = game.add(&mut blueprint_with_mixins);
 
-//     let mut blueprint_with_mixins = Blueprint {
-//         translation: Some(translation),
-//         rotation: Some(rotation),
-//         scale: Some(scale),
-//         using: vec![
-//             Box::new(RenderBasic::new(&material, &shape, [1.0, 0.0, 1.0, 0.0]))
-//         ],
-//     };
+    let mask = Has::Transform as u32;
+    let mask_with_mixins = Has::Transform as u32 | Has::Render as u32;
 
-//     let entity_1 = game.add(&mut blueprint_without_mixins);
-//     let entity_2 = game.add(&mut blueprint_with_mixins);
+    assert_eq!(entity_1, 0, "proper entity index created");
+    assert_eq!(entity_2, 1, "proper entity index created");
 
-//     let mask = 1 << Components::Transform as i32;
-//     let mask_with_mixins = 1 << Components::Transform as i32 | 1 << Components::Render as i32;
+    for i in vec![entity_1, entity_2] {
+        assert_eq!(game.world[i] & mask, mask, "proper entity component mask created");
 
-//     assert_eq!(entity_1, 0, "proper entity index created");
-//     assert_eq!(entity_2, 1, "proper entity index created");
+        assert_eq!(game.transform[i].unwrap().translation.x, translation.x, "translation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().translation.y, translation.y, "translation on entity fits the one in blueprint");
 
-//     for i in vec![entity_1, entity_2] {
-//         assert_eq!(game.world[i] & mask, mask, "proper entity component mask created");
+        assert_eq!(game.transform[i].unwrap().rotation, rotation, "rotation on entity fits the one in blueprint");
 
-//         assert_eq!(game.transform[i].unwrap().translation.x, translation.x, "translation on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().translation.y, translation.y, "translation on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().translation.z, translation.z, "translation on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().scale.x, scale.x, "scale on entity fits the one in blueprint");
+        assert_eq!(game.transform[i].unwrap().scale.y, scale.y, "scale on entity fits the one in blueprint");
+    }
 
-//         assert_eq!(game.transform[i].unwrap().rotation.x, rotation.x, "rotation on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().rotation.y, rotation.y, "rotation on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().rotation.z, rotation.w, "rotation on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().rotation.w, rotation.w, "rotation on entity fits the one in blueprint");
+    assert_eq!(game.world[1] & mask_with_mixins, mask_with_mixins, "proper entity component mask created for entity with mixins");
 
-//         assert_eq!(game.transform[i].unwrap().scale.x, scale.x, "scale on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().scale.y, scale.y, "scale on entity fits the one in blueprint");
-//         assert_eq!(game.transform[i].unwrap().scale.z, scale.z, "scale on entity fits the one in blueprint");
-//     }
-
-//     assert_eq!(game.world[1] & mask_with_mixins, mask_with_mixins, "proper entity component mask created for entity with mixins");
-
-// }
+}
