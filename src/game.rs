@@ -1,11 +1,9 @@
 use crate::blueprints::blu_common::Blueprint;
 use crate::components::com_draw2d::Draw2d;
 use crate::components::com_transform2d::Transform2d;
-use sdl2::render::TextureCreator;
 use crate::systems::sys_draw2d::sys_draw2d;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::pixels::{Color, PixelFormatEnum};
 use crate::systems::sys_transform2d::sys_transform2d;
 
 
@@ -39,13 +37,13 @@ impl Game {
             .build()
             .map_err(|e| e.to_string()).unwrap();
 
-        let mut canvas = window.into_canvas()
+        let canvas = window.into_canvas()
             .target_texture()
             .present_vsync()
             .build()
             .map_err(|e| e.to_string()).unwrap();
 
-        let mut event_pump = sdl_context.event_pump().unwrap();
+        let event_pump = sdl_context.event_pump().unwrap();
 
         Game {
             world: vec![0; MAX_ENTITIES],
