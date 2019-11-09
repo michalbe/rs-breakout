@@ -24,9 +24,11 @@ pub fn sys_draw2d(game: &Game, delta: f32) {
 fn update(game: &Game, entity: usize) {
     // TODO: Can this be handled smarter? I don't think
     // I like creating tuples like that...
-    if let (
-        Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]
-    ) {
-        println!("draw2d x:{}, y:{}", transform.translation.x - draw2d.width / 2.0, transform.translation.y - draw2d.height / 2.0);
+    if let (Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]) {
+        println!(
+            "draw2d x:{}, y:{}",
+            transform.translation.x - draw2d.width / 2.0,
+            transform.translation.y - draw2d.height / 2.0
+        );
     };
 }

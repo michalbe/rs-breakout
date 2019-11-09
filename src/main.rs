@@ -11,7 +11,7 @@ use crate::{
 };
 
 fn main() {
-    let mut game = Game::new();
+    let mut game = Game::new(640, 480);
 
     let mut blueprint = Blueprint {
         translation: None,
@@ -24,4 +24,6 @@ fn main() {
     let entity_2 = game.add(&mut blueprint);
 
     println!("{}, {}", entity_1, entity_2);
+
+    game.start();
 }
