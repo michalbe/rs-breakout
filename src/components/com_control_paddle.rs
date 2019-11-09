@@ -4,12 +4,12 @@ use crate::{
 };
 
 #[derive(Clone, Copy)]
-pub struct ControlBlock { }
+pub struct ControlPaddle { }
 
-impl ControlBlock {
+impl ControlPaddle {
     pub fn new() -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
-            game.world[entity] |= Has::ControlBlock as u32;
+            game.world[entity] |= Has::ControlPaddle as u32;
         }
     }
 }

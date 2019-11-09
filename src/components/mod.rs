@@ -4,6 +4,7 @@ pub mod com_move;
 pub mod com_controll_ball;
 pub mod com_collide;
 pub mod com_control_block;
+pub mod com_control_paddle;
 
 pub enum Component {
     Transform2d = 1,
@@ -12,6 +13,7 @@ pub enum Component {
     ControlBall,
     Collide,
     ControlBlock,
+    ControlPaddle,
 }
 
 pub enum Has {
@@ -21,4 +23,5 @@ pub enum Has {
     ControlBall = 1 << Component::ControlBall as u32,
     Collide = 1 << Component::Collide as u32,
     ControlBlock = 1 << Component::ControlBlock as u32,
+    ControlPaddle = 1 << Component::ControlPaddle as u32,
 }
