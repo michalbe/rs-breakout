@@ -13,6 +13,7 @@ use crate::systems::sys_move::sys_move;
 use crate::systems::sys_control_ball::sys_control_ball;
 use crate::systems::sys_collide::sys_collide;
 use crate::systems::sys_control_block::sys_control_block;
+use crate::systems::sys_control_paddle::sys_control_paddle;
 
 pub const MAX_ENTITIES: usize = 10000;
 
@@ -108,6 +109,7 @@ impl Game {
     pub fn update(&mut self, delta: f32) {
         sys_control_ball(self, delta);
         sys_control_block(self, delta);
+        sys_control_paddle(self, delta);
         sys_move(self, delta);
         sys_transform2d(self, delta);
         sys_collide(self, delta);
