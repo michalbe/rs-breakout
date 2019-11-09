@@ -1,11 +1,13 @@
+use crate::math::vec2::Vec2;
+
 #[derive(Clone, Copy)]
 pub struct Mat2d {
-    pub m00: f64,
-    pub m01: f64,
-    pub m02: f64,
-    pub m10: f64,
-    pub m11: f64,
-    pub m12: f64,
+    pub m00: f32,
+    pub m01: f32,
+    pub m02: f32,
+    pub m10: f32,
+    pub m11: f32,
+    pub m12: f32,
 }
 
 impl Mat2d {
@@ -18,5 +20,57 @@ impl Mat2d {
             m11: 0.0,
             m12: 0.0,
         }
+    }
+
+    pub fn from_translation(out: &mut Mat2d, v: Vec2) {
+        out.m00 = 1.0;
+        out.m01 = 0.0;
+        out.m02 = 0.0;
+        out.m10 = 1.0;
+        out.m11 = v.x;
+        out.m12 = v.y;
+    }
+
+    pub fn rotate(out: &mut Mat2d, a: Mat2d, rad: f32) {
+        let s = rad.sin();
+        let c = rad.cos();
+        out.m00 = a.m00 * c + a.m01 * s;
+        out.m01 = a.m01 * c + a.m02 * s;
+        out.m02 = a.m02 * -s + a.m01 * c;
+        out.m10 = a.m10 * -s + a.m02 * c;
+        out.m11 = a.m11;
+        out.m12 = a.m12;
+    }
+
+    pub fn scale(out: &mut Mat2d, a: Mat2d, v: Vec2) {
+        out.m00 = a.m00 * v.x;
+        out.m01 = a.m01 * v.x;
+        out.m02 = a.m02 * v.y;
+        out.m10 = a.m10 * v.y;
+        out.m11 = a.m11;
+        out.m12 = a.m12;
+    }
+
+    pub fn invert(out: &mut Mat2d, a: Mat2d) {
+        let aa = a.m00;
+        let ab = a.m01;
+        let ac = a.m02;
+        let ad = a.m10;
+        let atx = a.m11;
+        let aty = a.m12;
+
+        let mut det = aa * ad - ab * ac;
+        if det == 0.0 {
+            panic!();
+        }
+
+        det = 1.0 / det;
+
+        out.m00 = ad * det;
+        out.m01 = -ab * det;
+        out.m02 = -ac * det;
+        out.m10 = aa * det;
+        out.m11 = (ac * aty - ad * atx) * det;
+        out.m12 = (ab * atx - aa * aty) * det;
     }
 }
