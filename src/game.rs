@@ -4,8 +4,7 @@ use crate::{
         Has,
         Component,
         com_transform2d::Transform2d,
-        // com_render::{RenderKind, Render},
-        // com_render_basic::RenderBasic,
+        com_draw2d::Draw2d,
     }
 };
 
@@ -17,7 +16,7 @@ pub struct Game {
 
     // Components here
     pub transform: Vec<Option<Transform2d>>,
-    // pub render: [RenderKind; MAX_ENTITIES],
+    pub draw2d: Vec<Option<Draw2d>>,
 }
 
 impl Game {
@@ -25,7 +24,7 @@ impl Game {
         Game {
             world: vec![0; MAX_ENTITIES],
             transform: vec![None; MAX_ENTITIES],
-            // render: Vec::with_capacity(MAX_ENTITIES),
+            draw2d: vec![None; MAX_ENTITIES],
         }
     }
 
@@ -78,7 +77,7 @@ fn game_add_test() {
         rotation: Some(rotation),
         scale: Some(scale),
         using: vec![
-            // Box::new(RenderBasic::new(&material, &shape, [1.0, 0.0, 1.0, 0.0]))
+            Box::new(Draw2d::new(Some(5.0), Some(5.0), Some([125, 125, 125, 255])))
         ],
     };
 
@@ -86,7 +85,7 @@ fn game_add_test() {
     let entity_2 = game.add(&mut blueprint_with_mixins);
 
     let mask = Has::Transform as u32;
-    let mask_with_mixins = Has::Transform as u32 | Has::Render as u32;
+    let mask_with_mixins = Has::Transform as u32 | Has::Draw2d as u32;
 
     assert_eq!(entity_1, 0, "proper entity index created");
     assert_eq!(entity_2, 1, "proper entity index created");
