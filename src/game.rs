@@ -1,3 +1,8 @@
+use crate::systems::sys_draw2d::sys_draw2d;
+use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
+use sdl2::pixels::{Color, PixelFormatEnum};
+
 use crate::systems::sys_transform2d::sys_transform2d;
 use crate::{
     blueprints::blu_common::Blueprint,
@@ -51,6 +56,7 @@ impl Game {
 
     pub fn update(&mut self, delta: f32) {
         sys_transform2d(self, delta);
+        sys_draw2d(self, delta);
     }
 }
 
