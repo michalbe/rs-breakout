@@ -25,8 +25,6 @@ pub fn sys_draw2d(game: &mut Game, delta: f32) {
 }
 
 fn update(game: &mut Game, entity: usize) {
-    // TODO: Can this be handled in a smarter way? I don't think
-    // I like creating tuples like that...
     if let (Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]) {
         game.canvas.set_draw_color(Color::RGB(draw2d.color[0], draw2d.color[1], draw2d.color[2]));
         game.canvas.fill_rect(Rect::new(
