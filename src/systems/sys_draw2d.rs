@@ -33,6 +33,7 @@ fn update(game: &mut Game, entity: usize) {
             transform.translation.x as i32 - (draw2d.width / 2) as i32,
             transform.translation.y as i32 - (draw2d.height / 2) as i32,
             draw2d.width,
-            draw2d.height)).unwrap();
+            draw2d.height)
+        ).unwrap();
     };
 }
