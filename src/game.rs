@@ -21,6 +21,8 @@ pub struct Game {
     pub canvas: sdl2::render::Canvas<sdl2::video::Window>,
     pub event_pump: sdl2::EventPump,
 
+    pub clear_color: [u8; 4],
+
     // Components here
     pub transform: Vec<Option<Transform2d>>,
     pub draw2d: Vec<Option<Draw2d>>,
@@ -56,6 +58,8 @@ impl Game {
             // window,
             canvas,
             event_pump,
+
+            clear_color: [0, 0, 0, 255],
 
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],

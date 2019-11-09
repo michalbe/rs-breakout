@@ -1,4 +1,5 @@
 use crate::components::com_transform2d::Transform2d;
+use sdl2::pixels::{Color, PixelFormatEnum};
 use crate::{
     components::{
         Has,
@@ -11,8 +12,9 @@ use crate::{
 
 const QUERY: u32 = Has::Transform2d as u32 | Has::Draw2d as u32;
 
-pub fn sys_draw2d(game: &Game, delta: f32) {
-    // TODO: Clear screen here
+pub fn sys_draw2d(game: &mut Game, delta: f32) {
+    game.canvas.set_draw_color(Color::RGB(game.clear_color[0], game.clear_color[1], game.clear_color[2]));
+    game.canvas.clear();
     for i in 0..MAX_ENTITIES {
         if (game.world[i] & QUERY) == QUERY {
             update(game, i);
