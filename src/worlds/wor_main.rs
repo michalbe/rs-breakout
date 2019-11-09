@@ -1,4 +1,5 @@
 
+use crate::blueprints::blu_paddle::get_paddle;
 use crate::blueprints::blu_block::get_block;
 use crate::blueprints::blu_ball::get_ball;
 use crate::blueprints::blu_common::Blueprint;
@@ -15,6 +16,9 @@ pub fn world_main(game: &mut Game) {
     let grid_width = block_width * column_count + margin * (column_count - 1);
     let starting_x = (game.window_width - grid_width)/2;
     let starting_y = 50;
+
+    let mut paddle = get_paddle(game, (game.window_width / 2) as f32, (game.window_height - 30) as f32);
+    game.add(&mut paddle);
 
     let mut ball = get_ball(game, (game.window_width/2) as f32, (game.window_height/2) as f32);
     game.add(&mut ball);
