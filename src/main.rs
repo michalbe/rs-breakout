@@ -2,7 +2,9 @@ mod game;
 mod math;
 mod components;
 mod blueprints;
+mod systems;
 
+use crate::systems::sys_transform2d::sys_transform2d;
 use crate::{
     game::*,
     blueprints::blu_common::*,

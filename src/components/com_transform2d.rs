@@ -49,7 +49,7 @@ impl Transform2d {
 
     pub fn new(translation: Option<Vec2>, rotation: Option<f32>, scale: Option<Vec2>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
-            game.world[entity] |= Has::Transform as u32;
+            game.world[entity] |= Has::Transform2d as u32;
 
             game.transform[entity] = Some(Transform2d {
                 world: Mat2d::empty(),

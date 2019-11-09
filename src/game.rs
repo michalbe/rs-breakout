@@ -1,3 +1,4 @@
+use crate::systems::sys_transform2d::sys_transform2d;
 use crate::{
     blueprints::blu_common::Blueprint,
     components::{
@@ -7,7 +8,7 @@ use crate::{
 };
 
 
-const MAX_ENTITIES: usize = 10000;
+pub const MAX_ENTITIES: usize = 10000;
 
 pub struct Game {
     pub world: Vec<u32>,
@@ -46,9 +47,12 @@ impl Game {
         }
 
         entity
-   }
-}
+    }
 
+    pub fn update(&mut self, delta: f32) {
+        sys_transform2d(self, delta);
+    }
+}
 
 #[test]
 fn game_add_test() {
@@ -85,8 +89,8 @@ fn game_add_test() {
     let entity_1 = game.add(&mut blueprint_without_mixins);
     let entity_2 = game.add(&mut blueprint_with_mixins);
 
-    let mask = Has::Transform as u32;
-    let mask_with_mixins = Has::Transform as u32 | Has::Draw2d as u32;
+    let mask = Has::Transform2d as u32;
+    let mask_with_mixins = Has::Transform2d as u32 | Has::Draw2d as u32;
 
     assert_eq!(entity_1, 0, "proper entity index created");
     assert_eq!(entity_2, 1, "proper entity index created");
@@ -117,4 +121,5 @@ fn game_add_test() {
 
     assert_eq!(game.world[1] & mask_with_mixins, mask_with_mixins, "proper entity component mask created for entity with mixins");
 
+    game.update(12.3);
 }
