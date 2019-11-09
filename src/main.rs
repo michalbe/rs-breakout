@@ -13,15 +13,17 @@ use crate::{
 
 fn main() {
     let mut game = Game::new(640, 480);
-    let translation = Vec2::new(1.0, 2.0);
+    let translation = Vec2::new(100.0, 200.0);
     let rotation = 0.0;
     let scale = Vec2::new(2.0, 2.0);
 
     let mut blueprint_without_mixins = Blueprint {
-        translation: Some(translation),
+        translation: Some(Vec2::new(200.0, 300.0)),
         rotation: Some(rotation),
         scale: Some(scale),
-        using: vec![],
+        using: vec![
+            Box::new(Draw2d::new(Some(100), Some(20), Some([0, 255, 0, 255])))
+        ],
     };
 
     let mut blueprint_with_mixins = Blueprint {
@@ -29,7 +31,7 @@ fn main() {
         rotation: Some(rotation),
         scale: Some(scale),
         using: vec![
-            Box::new(Draw2d::new(Some(50), Some(50), Some([125, 125, 125, 255])))
+            Box::new(Draw2d::new(Some(50), Some(50), Some([255, 0, 255, 255])))
         ],
     };
 
