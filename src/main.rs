@@ -36,7 +36,7 @@ fn main() {
     };
 
     let entity_1 = game.add(&mut blueprint_without_mixins);
-    let entity_2 = game.add(&mut blueprint_with_mixins);
+    // let entity_2 = game.add(&mut blueprint_with_mixins);
 
     game.start();
 }

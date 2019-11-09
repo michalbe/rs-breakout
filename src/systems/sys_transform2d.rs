@@ -1,5 +1,6 @@
 
 use crate::components::com_transform2d::Transform2d;
+use crate::math::mat2d::Mat2d;
 use crate::{
     components::{
         Has,
@@ -26,7 +27,11 @@ fn update(game: &Game, entity: usize) {
         Some(mut transform) => {
             if transform.dirty {
                 transform.dirty = false;
-                println!("transform system works!");
+                let translated = Mat2d::from_translation(transform.translation);
+                let translated_and_rotated = Mat2d::rotate(translated, transform.rotation);
+                let translated_rotated_and_scaled = Mat2d::scale(translated_and_rotated, transform.scale);
+
+                transform.self_mat = Mat2d::invert(translated_rotated_and_scaled);
             }
         }
         None => {}
