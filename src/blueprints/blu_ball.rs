@@ -1,7 +1,8 @@
+use crate::math::vec2::Vec2;
 use crate::game::Game;
 use crate::blueprints::blu_common::Blueprint;
-use crate::math::vec2::Vec2;
 use crate::components::com_draw2d::Draw2d;
+use crate::components::com_move::Move;
 
 pub fn get_ball(game: &mut Game, x: f32, y: f32) -> Blueprint {
     Blueprint {
@@ -9,7 +10,8 @@ pub fn get_ball(game: &mut Game, x: f32, y: f32) -> Blueprint {
         rotation: None,
         scale: None,
         using: vec![
-            Box::new(Draw2d::new(Some(20), Some(20), Some([0, 255, 0, 255])))
+            Box::new(Draw2d::new(Some(20), Some(20), Some([0, 255, 0, 255]))),
+            Box::new(Move::new(Some(Vec2::new(1.0, 0.0)), Some(20.0))),
         ],
     }
 }
