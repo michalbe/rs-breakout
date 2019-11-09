@@ -12,7 +12,7 @@ pub struct Draw2d {
     pub width: f32,
     pub height: f32,
     // TODO: Will anything smaller fit here as well? like u8?
-    pub color: [u32; 4]
+    pub color: [u8; 4]
 }
 
 impl Draw2d {
@@ -24,7 +24,7 @@ impl Draw2d {
         }
     }
 
-    pub fn new(width: Option<f32>, height: Option<f32>, color: Option<[u32; 4]>) -> impl Fn(&mut Game, usize) -> () {
+    pub fn new(width: Option<f32>, height: Option<f32>, color: Option<[u8; 4]>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
             game.world[entity] |= Has::Draw2d as u32;
 
