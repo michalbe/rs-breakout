@@ -1,8 +1,6 @@
 use crate::{
     blueprints::blu_common::Blueprint,
     components::{
-        Has,
-        Component,
         com_transform2d::Transform2d,
         com_draw2d::Draw2d,
     }
@@ -58,6 +56,9 @@ fn game_add_test() {
         math::{
             vec2::Vec2,
         },
+        components::{
+            Has,
+        }
     };
 
     let mut game = Game::new();
@@ -101,6 +102,18 @@ fn game_add_test() {
         assert_eq!(game.transform[i].unwrap().scale.x, scale.x, "scale on entity fits the one in blueprint");
         assert_eq!(game.transform[i].unwrap().scale.y, scale.y, "scale on entity fits the one in blueprint");
     }
+
+    assert_eq!(game.draw2d[entity_2].unwrap().width, 5.0, "draw2d properties were properly set by the draw2d mixin");
+
+    match game.draw2d[entity_1] {
+        None => {
+            assert!(true, "Entity misses components as expected");
+        }
+        Some(_) => {
+            assert!(false, "Entity shouldn't have component if it wasn't attached with mixin");
+        }
+    }
+
 
     assert_eq!(game.world[1] & mask_with_mixins, mask_with_mixins, "proper entity component mask created for entity with mixins");
 
