@@ -71,8 +71,6 @@ impl Mat2d {
         let atx = a.m11;
         let aty = a.m12;
 
-        println!("aa{}, ab{}, ac{}, ad{}, det{}", aa, ab, ac, ad, aa * ad - ab * ac);
-
         let mut det = aa * ad - ab * ac;
 
         if det == 0.0 {
