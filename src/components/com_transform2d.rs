@@ -64,7 +64,7 @@ impl Transform2d {
                 },
                 scale: match scale {
                     Some(scale_value) => { scale_value },
-                    None => { Vec2::empty() }
+                    None => { Vec2::new(1.0, 1.0) }
                 },
                 entity_id: entity,
                 // parent: None,
