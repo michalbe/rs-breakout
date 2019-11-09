@@ -1,3 +1,4 @@
+use crate::components::com_move::Move;
 use crate::blueprints::blu_common::Blueprint;
 use crate::components::com_draw2d::Draw2d;
 use crate::components::com_transform2d::Transform2d;
@@ -24,6 +25,7 @@ pub struct Game {
     // Components here
     pub transform: Vec<Option<Transform2d>>,
     pub draw2d: Vec<Option<Draw2d>>,
+    pub move_component: Vec<Option<Move>>,
 }
 
 impl Game {
@@ -59,6 +61,7 @@ impl Game {
 
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],
+            move_component: vec![None; MAX_ENTITIES],
         }
     }
 
