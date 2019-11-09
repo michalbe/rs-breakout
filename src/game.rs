@@ -34,9 +34,7 @@ impl Game {
         let video_subsystem = sdl_context.video().unwrap();
 
         let window = video_subsystem
-            .window("rs-breakout",
-                    window_width,
-                    window_height)
+            .window("rs-breakout", window_width, window_height)
             .position_centered()
             .build()
             .map_err(|e| e.to_string()).unwrap();

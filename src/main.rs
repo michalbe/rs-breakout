@@ -29,7 +29,7 @@ fn main() {
         rotation: Some(rotation),
         scale: Some(scale),
         using: vec![
-            Box::new(Draw2d::new(Some(5.0), Some(5.0), Some([125, 125, 125, 255])))
+            Box::new(Draw2d::new(Some(50), Some(50), Some([125, 125, 125, 255])))
         ],
     };
 

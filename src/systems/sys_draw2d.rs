@@ -1,5 +1,6 @@
 use crate::components::com_transform2d::Transform2d;
 use sdl2::pixels::{Color, PixelFormatEnum};
+use sdl2::rect::{Point, Rect};
 use crate::{
     components::{
         Has,
@@ -23,14 +24,15 @@ pub fn sys_draw2d(game: &mut Game, delta: f32) {
 
 }
 
-fn update(game: &Game, entity: usize) {
-    // TODO: Can this be handled smarter? I don't think
+fn update(game: &mut Game, entity: usize) {
+    // TODO: Can this be handled in a smarter way? I don't think
     // I like creating tuples like that...
     if let (Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]) {
-        println!(
-            "draw2d x:{}, y:{}",
-            transform.translation.x - draw2d.width / 2.0,
-            transform.translation.y - draw2d.height / 2.0
-        );
+        game.canvas.set_draw_color(Color::RGB(draw2d.color[0], draw2d.color[1], draw2d.color[2]));
+        game.canvas.fill_rect(Rect::new(
+            transform.translation.x as i32 - (draw2d.width / 2) as i32,
+            transform.translation.y as i32 - (draw2d.height / 2) as i32,
+            draw2d.width,
+            draw2d.height)).unwrap();
     };
 }
