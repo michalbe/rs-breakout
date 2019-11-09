@@ -1,12 +1,13 @@
-use crate::components::com_move::Move;
+use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
+
 use crate::blueprints::blu_common::Blueprint;
+use crate::components::com_move::Move;
 use crate::components::com_draw2d::Draw2d;
 use crate::components::com_transform2d::Transform2d;
 use crate::systems::sys_draw2d::sys_draw2d;
-use sdl2::event::Event;
-use sdl2::keyboard::Keycode;
 use crate::systems::sys_transform2d::sys_transform2d;
-
+use crate::systems::sys_move::sys_move;
 
 pub const MAX_ENTITIES: usize = 10000;
 
@@ -88,6 +89,7 @@ impl Game {
     }
 
     pub fn update(&mut self, delta: f32) {
+        sys_move(self, delta);
         sys_transform2d(self, delta);
         sys_draw2d(self, delta);
     }
@@ -114,7 +116,8 @@ impl Game {
                     _ => {}
                 }
             }
-            self.update(1.1);
+            self.update(0.16);
+
             self.canvas.present();
         }
     }
