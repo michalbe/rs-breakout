@@ -5,6 +5,7 @@ use crate::blueprints::blu_common::Blueprint;
 use crate::components::com_move::Move;
 use crate::components::com_draw2d::Draw2d;
 use crate::components::com_transform2d::Transform2d;
+use crate::components::com_controll_ball::ControlBall;
 use crate::systems::sys_draw2d::sys_draw2d;
 use crate::systems::sys_transform2d::sys_transform2d;
 use crate::systems::sys_move::sys_move;
@@ -26,7 +27,9 @@ pub struct Game {
     // Components here
     pub transform: Vec<Option<Transform2d>>,
     pub draw2d: Vec<Option<Draw2d>>,
+    // 'move' is a reserved keyword in rust
     pub move_component: Vec<Option<Move>>,
+    pub control_ball: Vec<Option<ControlBall>>,
 }
 
 impl Game {
@@ -63,6 +66,7 @@ impl Game {
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],
             move_component: vec![None; MAX_ENTITIES],
+            control_ball: vec![None; MAX_ENTITIES],
         }
     }
 
