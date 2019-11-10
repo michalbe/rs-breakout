@@ -3,6 +3,7 @@ pub mod com_draw2d;
 pub mod com_move;
 pub mod com_controll_ball;
 pub mod com_collide;
+pub mod com_control_block;
 
 pub enum Component {
     Transform2d = 1,
@@ -10,6 +11,7 @@ pub enum Component {
     Move,
     ControlBall,
     Collide,
+    ControlBlock,
 }
 
 pub enum Has {
@@ -18,4 +20,5 @@ pub enum Has {
     Move = 1 << Component::Move as u32,
     ControlBall = 1 << Component::ControlBall as u32,
     Collide = 1 << Component::Collide as u32,
+    ControlBlock = 1 << Component::ControlBlock as u32,
 }
