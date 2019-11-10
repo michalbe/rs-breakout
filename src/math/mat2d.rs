@@ -34,6 +34,15 @@ impl Mat2d {
         out
     }
 
+    pub fn get_translation(a: Mat2d) -> Vec2 {
+        let mut out = Vec2::empty();
+
+        out.x = a.m11;
+        out.y = a.m12;
+
+        out
+    }
+
     pub fn rotate(a: Mat2d, rad: f32)  -> Mat2d {
         let mut out = Mat2d::empty();
 
