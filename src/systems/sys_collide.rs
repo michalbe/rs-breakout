@@ -13,7 +13,13 @@ pub fn sys_collide(game: &mut Game, delta: f32) {
     let mut all_colliders: Vec<Collide> = Vec::new();
     for i in 0..MAX_ENTITIES {
         if (game.world[i] & QUERY) == QUERY {
-            if let (Some(transform), Some(mut collider)) = (game.transform[i], game.collide[i]) {
+            if let (
+                Some(transform),
+                Some(mut collider)
+            ) = (
+                game.transform[i],
+                game.collide[i]
+            ) {
                 collider.collision = None;
                 compute_aabb(transform, &mut collider);
                 game.collide[i] = Some(collider);
@@ -29,10 +35,11 @@ pub fn sys_collide(game: &mut Game, delta: f32) {
             if collider.entity != other.entity && intersect_aabb(&collider, &other) {
                 collider.collision = Some(Collision {
                     entity: other.entity,
-                    hit: calculate_penetration(collider, other)
+                    hit: calculate_penetration(&collider, &other)
                 });
 
-                game.collide[i] = Some(collider);
+                // TODO: ...
+                game.collide[collider.entity] = Some(collider);
             }
         }
     }
@@ -53,7 +60,7 @@ fn intersect_aabb(a: &Collide, b: &Collide) -> bool {
         && a.max.y > b.min.y
 }
 
-fn calculate_penetration(a: Collide, b: Collide) -> Vec2 {
+fn calculate_penetration(a: &Collide, b: &Collide) -> Vec2 {
     let mut penetration = Vec2::empty();
     let distance_x = a.center.x - b.center.x;
     let penetration_x = a.size.x / 2.0 + b.size.x / 2.0 - distance_x.abs();
