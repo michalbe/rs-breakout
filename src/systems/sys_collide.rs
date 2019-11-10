@@ -27,11 +27,12 @@ pub fn sys_collide(game: &mut Game, delta: f32) {
         for j in 0..all_colliders.len() {
             let other = all_colliders[j];
             if collider.entity != other.entity && intersect_aabb(&collider, &other) {
-                println!("COLLIDE: e{}, e{}", collider.entity, other.entity);
                 collider.collision = Some(Collision {
                     entity: other.entity,
                     hit: calculate_penetration(collider, other)
-                })
+                });
+
+                game.collide[i] = Some(collider);
             }
         }
     }
