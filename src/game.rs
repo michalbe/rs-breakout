@@ -28,11 +28,11 @@ pub struct Game {
 
     pub clear_color: [u8; 4],
 
-    // Components here
+    pub input_state: Vec<Option<bool>>,
+
     pub transform: Vec<Option<Transform2d>>,
     pub draw2d: Vec<Option<Draw2d>>,
-    // 'move' is a reserved keyword in rust
-    pub move_component: Vec<Option<Move>>,
+    pub move_component: Vec<Option<Move>>, // 'move' is a reserved keyword in rust
     pub control_ball: Vec<Option<ControlBall>>,
     pub collide: Vec<Option<Collide>>,
 }
@@ -67,6 +67,9 @@ impl Game {
             event_pump,
 
             clear_color: [0, 0, 0, 255],
+
+            // Are there more than 200 keys?
+            input_state: vec![None; 200],
 
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],
@@ -119,20 +122,23 @@ impl Game {
                     Event::Quit {..} | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
                         break 'running
                     },
-                    // Event::KeyDown { keycode: Some(Keycode::Space), repeat: false, .. } => {
-                    //     game.toggle_state();
-                    // },
-                    // Event::MouseButtonDown { x, y, mouse_btn: MouseButton::Left, .. } => {
-                    //     let x = (x as u32) / SQUARE_SIZE;
-                    //     let y = (y as u32) / SQUARE_SIZE;
-                    //     match game.get_mut(x as i32, y as i32) {
-                    //         Some(square) => {*square = !(*square);},
-                    //         None => unreachable!(),
-                    //     };
-                    // },
+                    // TODO: FIXME!
+                    Event::KeyDown { keycode: Some(Keycode::Left), repeat: false, .. } => {
+                        self.input_state[0] = Some(true);
+                    },
+                    Event::KeyDown { keycode: Some(Keycode::Right), repeat: false, .. } => {
+                        self.input_state[1] = Some(true);
+                    },
+                    Event::KeyUp { keycode: Some(Keycode::Left), repeat: false, .. } => {
+                        self.input_state[0] = None;
+                    },
+                    Event::KeyUp { keycode: Some(Keycode::Right), repeat: false, .. } => {
+                        self.input_state[1] = None;
+                    },
                     _ => {}
                 }
             }
+
             self.update(0.16);
 
             self.canvas.present();
