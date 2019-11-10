@@ -38,11 +38,7 @@ pub fn sys_collide(game: &mut Game, delta: f32) {
 }
 
 fn compute_aabb(transform: Transform2d, collide: &mut Collide) {
-    // collide.center = Mat2d::get_translation(transform.world);
-    collide.center = transform.translation;
-
-    // println!("center: ({}, {})", collide.center.x, collide.center.y);
-
+    collide.center = Mat2d::get_translation(transform.world);
     collide.min.x = collide.center.x - collide.size.x / 2.0;
     collide.min.y = collide.center.y - collide.size.y / 2.0;
     collide.max.x = collide.center.x + collide.size.x / 2.0;
