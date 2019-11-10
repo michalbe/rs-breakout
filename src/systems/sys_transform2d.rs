@@ -31,7 +31,11 @@ fn update(game: &mut Game, entity: usize) {
                 let translated_and_rotated = Mat2d::rotate(translated, transform.rotation);
                 let translated_rotated_and_scaled = Mat2d::scale(translated_and_rotated, transform.scale);
 
+                transform.world = translated_rotated_and_scaled;
                 transform.self_mat = Mat2d::invert(translated_rotated_and_scaled);
+
+                // TODO: This is terrible, fixme!
+                game.transform[entity] = Some(transform);
             }
         }
         None => {}
