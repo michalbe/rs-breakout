@@ -97,6 +97,10 @@ impl Game {
         entity
     }
 
+    pub fn destroy(&mut self, entity: usize) {
+        self.world[entity] = 0;
+    }
+
     pub fn update(&mut self, delta: f32) {
         sys_control_ball(self, delta);
         sys_move(self, delta);
