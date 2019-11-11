@@ -69,8 +69,8 @@ impl Game {
 
             clear_color: [0, 0, 0, 255],
 
-            // Are there more than 200 keys?
-            input_state: vec![None; 200],
+            // Are there more than 300 keys?
+            input_state: vec![None; 300],
 
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],
