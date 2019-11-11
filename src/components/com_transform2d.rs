@@ -1,11 +1,7 @@
-use crate::{
-    math::{
-        mat2d::Mat2d,
-        vec2::Vec2,
-    },
-    game::Game,
-    components::Has,
-};
+use crate::math::mat2d::Mat2d;
+use crate::math::vec2::Vec2;
+use crate::game::Game;
+use crate::components::Has;
 
 #[derive(Clone, Copy)]
 pub struct Transform2d {
@@ -32,21 +28,6 @@ pub struct Transform2d {
 }
 
 impl Transform2d {
-    pub fn empty() -> Transform2d {
-        Transform2d {
-            world: Mat2d::empty(),
-            self_mat: Mat2d::empty(),
-            translation: Vec2::empty(),
-            rotation: 0.0,
-            scale: Vec2::empty(),
-
-            entity_id: 0,
-            // parent: None,
-            // children: Default::default(),
-            dirty: true,
-        }
-    }
-
     pub fn new(translation: Option<Vec2>, rotation: Option<f32>, scale: Option<Vec2>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
             game.world[entity] |= Has::Transform2d as u32;

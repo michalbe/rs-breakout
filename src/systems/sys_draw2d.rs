@@ -1,19 +1,12 @@
-use crate::components::com_transform2d::Transform2d;
-use sdl2::pixels::{Color, PixelFormatEnum};
-use sdl2::rect::{Point, Rect};
-use crate::{
-    components::{
-        Has,
-    },
-    game::{
-        MAX_ENTITIES,
-        Game,
-    }
-};
+use sdl2::pixels::Color;
+use sdl2::rect::Rect;
+use crate::components::Has;
+use crate::game::MAX_ENTITIES;
+use crate::game::Game;
 
 const QUERY: u32 = Has::Transform2d as u32 | Has::Draw2d as u32;
 
-pub fn sys_draw2d(game: &mut Game, delta: f32) {
+pub fn sys_draw2d(game: &mut Game, _delta: f32) {
     game.canvas.set_draw_color(Color::RGB(game.clear_color[0], game.clear_color[1], game.clear_color[2]));
     game.canvas.clear();
     for i in 0..MAX_ENTITIES {

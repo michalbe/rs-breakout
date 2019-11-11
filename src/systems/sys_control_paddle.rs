@@ -1,17 +1,11 @@
 use sdl2::keyboard::Scancode;
-use crate::{
-    components::{
-        Has,
-    },
-    game::{
-        MAX_ENTITIES,
-        Game,
-    }
-};
+use crate::components::Has;
+use crate::game::MAX_ENTITIES;
+use crate::game::Game;
 
 const QUERY: u32 = Has::Move as u32 | Has::ControlPaddle as u32;
 
-pub fn sys_control_paddle(game: &mut Game, delta: f32) {
+pub fn sys_control_paddle(game: &mut Game, _delta: f32) {
     for i in 0..MAX_ENTITIES {
         if (game.world[i] & QUERY) == QUERY {
             update(game, i);

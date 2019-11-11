@@ -9,7 +9,7 @@ use crate::math::mat2d::Mat2d;
 
 const QUERY: u32 = Has::Transform2d as u32 | Has::Collide as u32;
 
-pub fn sys_collide(game: &mut Game, delta: f32) {
+pub fn sys_collide(game: &mut Game, _delta: f32) {
     let mut all_colliders: Vec<Collide> = Vec::new();
     for i in 0..MAX_ENTITIES {
         if (game.world[i] & QUERY) == QUERY {

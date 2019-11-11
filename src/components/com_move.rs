@@ -1,11 +1,6 @@
-use crate::{
-    math::{
-        mat2d::Mat2d,
-        vec2::Vec2,
-    },
-    game::Game,
-    components::Has,
-};
+use crate::math::vec2::Vec2;
+use crate::game::Game;
+use crate::components::Has;
 
 #[derive(Clone, Copy)]
 pub struct Move {
@@ -14,13 +9,6 @@ pub struct Move {
 }
 
 impl Move {
-    pub fn empty() -> Move {
-        Move {
-            direction: Vec2::empty(),
-            speed: 1.0,
-        }
-    }
-
     pub fn new(direction: Option<Vec2>, speed: Option<f32>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
             game.world[entity] |= Has::Move as u32;

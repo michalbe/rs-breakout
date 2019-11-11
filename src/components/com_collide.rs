@@ -20,17 +20,6 @@ pub struct Collide {
 }
 
 impl Collide {
-    pub fn empty() -> Collide {
-        Collide {
-            entity: 0,
-            size: Vec2::empty(),
-            min: Vec2::empty(),
-            max: Vec2::empty(),
-            center: Vec2::empty(),
-            collision: None,
-        }
-    }
-
     pub fn new(size: Option<Vec2>) -> impl Fn(&mut Game, usize) -> () {
         move |game: &mut Game, entity: usize| -> () {
             game.world[entity] |= Has::Collide as u32;
@@ -49,3 +38,4 @@ impl Collide {
         }
     }
 }
+

@@ -1,19 +1,11 @@
-
-use crate::components::com_transform2d::Transform2d;
 use crate::math::mat2d::Mat2d;
-use crate::{
-    components::{
-        Has,
-    },
-    game::{
-        MAX_ENTITIES,
-        Game,
-    }
-};
+use crate::game::MAX_ENTITIES;
+use crate::game::Game;
+use crate::components::Has;
 
 const QUERY: u32 = Has::Transform2d as u32;
 
-pub fn sys_transform2d(game: &mut Game, delta: f32) {
+pub fn sys_transform2d(game: &mut Game, _delta: f32) {
     for i in 0..MAX_ENTITIES {
         if (game.world[i] & QUERY) == QUERY {
             update(game, i);

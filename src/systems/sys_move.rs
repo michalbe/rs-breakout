@@ -1,15 +1,6 @@
-
-use crate::components::com_transform2d::Transform2d;
-use crate::math::mat2d::Mat2d;
-use crate::{
-    components::{
-        Has,
-    },
-    game::{
-        MAX_ENTITIES,
-        Game,
-    }
-};
+use crate::game::MAX_ENTITIES;
+use crate::game::Game;
+use crate::components::Has;
 
 const QUERY: u32 = Has::Transform2d as u32 | Has::Move as u32;
 

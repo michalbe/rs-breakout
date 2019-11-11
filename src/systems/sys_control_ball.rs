@@ -1,15 +1,6 @@
-
-use crate::components::com_transform2d::Transform2d;
-use crate::math::mat2d::Mat2d;
-use crate::{
-    components::{
-        Has,
-    },
-    game::{
-        MAX_ENTITIES,
-        Game,
-    }
-};
+use crate::components::Has;
+use crate::game::MAX_ENTITIES;
+use crate::game::Game;
 
 const QUERY: u32 = Has::Transform2d as u32 | Has::Move as u32 | Has::ControlBall as u32;
 
@@ -22,7 +13,7 @@ pub fn sys_control_ball(game: &mut Game, delta: f32) {
 
 }
 
-fn update(game: &mut Game, entity: usize, delta: f32) {
+fn update(game: &mut Game, entity: usize, _delta: f32) {
     if let (
         Some(mut transform),
         Some(mut control),

@@ -14,17 +14,17 @@ pub fn world_main(game: &mut Game) {
     let starting_x = (game.window_width - grid_width)/2;
     let starting_y = 50;
 
-    let mut paddle = get_paddle(game, (game.window_width / 2) as f32, (game.window_height - 30) as f32);
+    let mut paddle = get_paddle((game.window_width / 2) as f32, (game.window_height - 30) as f32);
     game.add(&mut paddle);
 
-    let mut ball = get_ball(game, (game.window_width/2) as f32, (game.window_height/2) as f32);
+    let mut ball = get_ball((game.window_width/2) as f32, (game.window_height/2) as f32);
     game.add(&mut ball);
 
     for row in 0..row_count {
         let y = starting_y + row * (block_height + margin) + block_height / 2;
         for col in 0..column_count {
             let x = starting_x + col * (block_width + margin) + block_width / 2;
-            let mut block = get_block(game, x as f32, y as f32, block_width, block_height);
+            let mut block = get_block(x as f32, y as f32, block_width, block_height);
             game.add(&mut block);
         }
     }

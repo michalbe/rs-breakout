@@ -1,4 +1,3 @@
-use crate::game::Game;
 use crate::blueprints::blu_common::Blueprint;
 use crate::math::vec2::Vec2;
 use crate::components::com_draw2d::Draw2d;
@@ -6,7 +5,7 @@ use crate::components::com_collide::Collide;
 use crate::components::com_control_paddle::ControlPaddle;
 use crate::components::com_move::Move;
 
-pub fn get_paddle(game: &mut Game, x: f32, y: f32) -> Blueprint {
+pub fn get_paddle(x: f32, y: f32) -> Blueprint {
     Blueprint {
         translation: Some(Vec2::new(x, y)),
         rotation: None,
