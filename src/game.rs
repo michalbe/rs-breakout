@@ -125,17 +125,11 @@ impl Game {
                         break 'running
                     },
                     // TODO: FIXME!
-                    Event::KeyDown { keycode: Some(Keycode::Left), repeat: false, .. } => {
-                        self.input_state[0] = Some(true);
+                    Event::KeyDown { scancode: Some(key_code), repeat: false, .. } => {
+                        self.input_state[key_code as usize] = Some(true);
                     },
-                    Event::KeyDown { keycode: Some(Keycode::Right), repeat: false, .. } => {
-                        self.input_state[1] = Some(true);
-                    },
-                    Event::KeyUp { keycode: Some(Keycode::Left), repeat: false, .. } => {
-                        self.input_state[0] = None;
-                    },
-                    Event::KeyUp { keycode: Some(Keycode::Right), repeat: false, .. } => {
-                        self.input_state[1] = None;
+                    Event::KeyUp { scancode: Some(key_code), repeat: false, .. } => {
+                        self.input_state[key_code as usize] = None;
                     },
                     _ => {}
                 }

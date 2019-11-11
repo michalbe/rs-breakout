@@ -1,3 +1,4 @@
+use sdl2::keyboard::Scancode;
 use crate::{
     components::{
         Has,
@@ -28,11 +29,11 @@ fn update(game: &mut Game, entity: usize) {
 
         move_component.direction.x = 0.0;
 
-        if let Some(_) = game.input_state[0] {
+        if let Some(_) = game.input_state[Scancode::Left as usize] {
             move_component.direction.x -= 1.0;
         }
 
-        if let Some(_) = game.input_state[1] {
+        if let Some(_) = game.input_state[Scancode::Right as usize] {
             move_component.direction.x += 1.0;
         }
 
