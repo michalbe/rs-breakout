@@ -23,10 +23,10 @@ fn update(game: &mut Game, entity: usize) {
         if transform.dirty {
             for child in transform.children.iter() {
                 if let Some(child_entity_id) = child {
-                    // if let Some(mut child_transform) = game.transform[child_entity_id] {
-
-                    // }
-                    println!("Children: {}", child_entity_id);
+                    if let Some(mut child_transform) = game.transform[*child_entity_id] {
+                        child_transform.dirty = true;
+                        game.transform[*child_entity_id] = Some(child_transform);
+                    }
                 }
             }
 
