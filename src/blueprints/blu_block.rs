@@ -14,6 +14,7 @@ pub fn get_block(x: f32, y: f32, width: u32, height: u32) -> Blueprint {
             Box::new(Collide::new(Some(Vec2::new(width as f32, height as f32)))),
             Box::new(ControlBlock::new()),
         ],
+        children: None,
     }
 }
 

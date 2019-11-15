@@ -16,6 +16,7 @@ pub fn get_ball(x: f32, y: f32) -> Blueprint {
             Box::new(ControlBall::new(None)),
             Box::new(Collide::new(Some(Vec2::new(20.0, 20.0)))),
         ],
+        children: None,
     }
 }
 

@@ -10,4 +10,5 @@ pub struct Blueprint {
     pub rotation: Option<f32>,
     pub scale: Option<Vec2>,
     pub using: Vec<Box<dyn Fn(&mut Game, usize) -> ()>>,
+    pub children: Option<Vec<Blueprint>>,
 }

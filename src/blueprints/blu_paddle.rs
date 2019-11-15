@@ -16,6 +16,7 @@ pub fn get_paddle(x: f32, y: f32) -> Blueprint {
             Box::new(Move::new(None, Some(90.0))),
             Box::new(ControlPaddle::new()),
         ],
+        children: None,
     }
 }
 
