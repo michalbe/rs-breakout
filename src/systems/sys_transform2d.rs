@@ -15,22 +15,31 @@ pub fn sys_transform2d(game: &mut Game, _delta: f32) {
 }
 
 fn update(game: &mut Game, entity: usize) {
-    match game.transform[entity] {
-        Some(mut transform) => {
-            if transform.dirty {
-                transform.dirty = false;
-                let translated = Mat2d::from_translation(transform.translation);
-                let translated_and_rotated = Mat2d::rotate(translated, transform.rotation);
-                let translated_rotated_and_scaled = Mat2d::scale(translated_and_rotated, transform.scale);
+    if let (
+        Some(mut transform),
+    ) = (
+        game.transform[entity],
+    ) {
+        if transform.dirty {
+            for child in transform.children.iter() {
+                if let Some(child_entity_id) = child {
+                    // if let Some(mut child_transform) = game.transform[child_entity_id] {
 
-                transform.world = translated_rotated_and_scaled;
-                transform.self_mat = Mat2d::invert(translated_rotated_and_scaled);
-
-                // TODO: This is terrible, fixme!
-                game.transform[entity] = Some(transform);
+                    // }
+                    println!("Children: {}", child_entity_id);
+                }
             }
-        }
-        None => {}
-    };
 
+            transform.dirty = false;
+            let translated = Mat2d::from_translation(transform.translation);
+            let translated_and_rotated = Mat2d::rotate(translated, transform.rotation);
+            let translated_rotated_and_scaled = Mat2d::scale(translated_and_rotated, transform.scale);
+
+            transform.world = translated_rotated_and_scaled;
+            transform.self_mat = Mat2d::invert(translated_rotated_and_scaled);
+
+            // TODO: This is terrible, fixme!
+            game.transform[entity] = Some(transform);
+        }
+    };
 }
