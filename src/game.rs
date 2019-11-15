@@ -138,7 +138,6 @@ impl Game {
     }
 
     pub fn start(&mut self) {
-        let mut a = 3;
         'running: loop {
             for event in self.event_pump.poll_iter() {
                 match event {
@@ -157,10 +156,7 @@ impl Game {
             }
 
             self.update(0.16);
-            // if a == 0 {
-            //     break 'running;
-            // }
-            // a -= 1;
+
             self.canvas.present();
         }
     }
