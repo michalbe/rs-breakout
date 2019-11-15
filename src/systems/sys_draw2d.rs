@@ -21,8 +21,8 @@ fn update(game: &mut Game, entity: usize) {
     if let (Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]) {
         game.canvas.set_draw_color(Color::RGB(draw2d.color[0], draw2d.color[1], draw2d.color[2]));
         game.canvas.fill_rect(Rect::new(
-            transform.translation.x as i32 - (draw2d.width / 2) as i32,
-            transform.translation.y as i32 - (draw2d.height / 2) as i32,
+            transform.world.m11 as i32 - (draw2d.width / 2) as i32,
+            transform.world.m12 as i32 - (draw2d.height / 2) as i32,
             draw2d.width,
             draw2d.height)
         ).unwrap();

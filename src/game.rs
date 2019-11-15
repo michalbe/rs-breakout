@@ -106,8 +106,14 @@ impl Game {
                     let child_id = self.add(child);
 
                     // XXX: It's safe to unwrap here, we know those values are there.
-                    self.transform[child_id].unwrap().parent = Some(entity);
-                    self.transform[entity].unwrap().children[i] = Some(child_id);
+                    let mut child_transform = self.transform[child_id].unwrap();
+                    child_transform.parent = Some(entity);
+                    self.transform[child_id] = Some(child_transform);
+
+                    let mut parent_transform = self.transform[entity].unwrap();
+                    parent_transform.children[i] = Some(child_id);
+                    // println!("{:?}", parent_transform.children);
+                    self.transform[entity] = Some(parent_transform);
 
                     i += 1;
                 }
@@ -133,7 +139,7 @@ impl Game {
     }
 
     pub fn start(&mut self) {
-
+        let mut a = 3;
         'running: loop {
             for event in self.event_pump.poll_iter() {
                 match event {
@@ -152,7 +158,10 @@ impl Game {
             }
 
             self.update(0.16);
-
+            // if a == 0 {
+            //     break 'running;
+            // }
+            // a -= 1;
             self.canvas.present();
         }
     }

@@ -18,12 +18,10 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
         Some(mut transform),
         Some(mut control),
         Some(mut move_component),
-        Some(collide),
     ) = (
         game.transform[entity],
         game.control_ball[entity],
         game.move_component[entity],
-        game.collide[entity],
     ) {
        if transform.translation.x < 0.0 {
             transform.translation.x = 0.0;
@@ -45,16 +43,18 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
             control.direction.y *= -1.0;
        }
 
-        if let Some(collision) = collide.collision {
-            if collision.hit.x != 0.0 {
-                transform.translation.x += collision.hit.x;
-                control.direction.x *= -1.0;
+       if let Some(collide) = game.collide[entity] {
+            if let Some(collision) = collide.collision {
+                if collision.hit.x != 0.0 {
+                    transform.translation.x += collision.hit.x;
+                    control.direction.x *= -1.0;
+                }
+                if collision.hit.y != 0.0 {
+                    transform.translation.y += collision.hit.y;
+                    control.direction.y *= -1.0;
+                }
             }
-            if collision.hit.y != 0.0 {
-                transform.translation.y += collision.hit.y;
-                control.direction.y *= -1.0;
-            }
-        }
+       }
 
        move_component.direction.x = control.direction.x;
        move_component.direction.y = control.direction.y;
