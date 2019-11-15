@@ -37,11 +37,7 @@ fn update(game: &mut Game, entity: usize) {
             let translated_rotated_and_scaled = Mat2d::scale(translated_and_rotated, transform.scale);
 
             if let Some(parent_id) = transform.parent {
-                if entity == 1 {
-                    println!("before {}, {}", transform.world.m11, transform.world.m12);
-                }
                 let parent_transform = game.transform[parent_id].unwrap();
-                // println!("parent: {}", parent_id);
                 transform.world = Mat2d::multiply(parent_transform.world, translated_rotated_and_scaled);
             } else {
                 transform.world = translated_rotated_and_scaled;
@@ -49,10 +45,6 @@ fn update(game: &mut Game, entity: usize) {
 
 
             transform.self_mat = Mat2d::invert(transform.world);
-
-            if entity == 1 {
-               println!("before {}, {}", transform.world.m11, transform.world.m12);
-            }
 
             // TODO: This is terrible, fixme!
             game.transform[entity] = Some(transform);

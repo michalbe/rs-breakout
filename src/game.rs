@@ -112,7 +112,6 @@ impl Game {
 
                     let mut parent_transform = self.transform[entity].unwrap();
                     parent_transform.children[i] = Some(child_id);
-                    // println!("{:?}", parent_transform.children);
                     self.transform[entity] = Some(parent_transform);
 
                     i += 1;
