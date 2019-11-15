@@ -90,13 +90,29 @@ impl Game {
         panic!("No more entities available!");
     }
 
-   pub fn add(&mut self, blueprint: &mut Blueprint) -> usize {
+   pub fn add(&mut self, mut blueprint: Blueprint) -> usize {
         let entity = self.create_entity();
         let transform_mixin = Transform2d::new(blueprint.translation, blueprint.rotation, blueprint.scale);
         transform_mixin(self, entity);
 
         for mixin in blueprint.using.iter_mut() {
             mixin(self, entity);
+        }
+
+        match blueprint.children {
+            Some(children_list) => {
+                let mut i = 0;
+                for child in children_list {
+                    let child_id = self.add(child);
+
+                    // XXX: It's safe to unwrap here, we know those values are there.
+                    self.transform[child_id].unwrap().parent = Some(entity);
+                    self.transform[entity].unwrap().children[i] = Some(child_id);
+
+                    i += 1;
+                }
+            }
+            None => {}
         }
 
         entity
