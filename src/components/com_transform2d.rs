@@ -18,12 +18,8 @@ pub struct Transform2d {
     pub scale: Vec2,
 
     pub entity_id: usize,
-
-    // TODO: in original Goodluck Trannsform::parent is a Transform
-    // instance. Will this work as well?
-    // pub parent: Option<usize>,
-    // TODO: This needs a little bit more thinking.
-    // pub children: Vec<Transform>,
+    pub parent: Option<usize>,
+    pub children: [Option<usize>; 10],
     pub dirty: bool,
 }
 
@@ -48,8 +44,8 @@ impl Transform2d {
                     None => { Vec2::new(1.0, 1.0) }
                 },
                 entity_id: entity,
-                // parent: None,
-                // children: Default::default(),
+                parent: None,
+                children: Default::default(),
                 dirty: true,
             });
         }
