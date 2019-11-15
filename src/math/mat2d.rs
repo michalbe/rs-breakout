@@ -97,4 +97,29 @@ impl Mat2d {
 
         out
     }
+
+    pub fn multiply(a: Mat2d, b: Mat2d) -> Mat2d {
+        let mut out = Mat2d::empty();
+
+        let a0 = a.m00;
+        let a1 = a.m01;
+        let a2 = a.m02;
+        let a3 = a.m10;
+        let a4 = a.m11;
+        let a5 = a.m12;
+        let b0 = b.m00;
+        let b1 = b.m01;
+        let b2 = b.m02;
+        let b3 = b.m10;
+        let b4 = b.m11;
+        let b5 = b.m12;
+        out.m00 = a0 * b0 + a2 * b1;
+        out.m01 = a1 * b0 + a3 * b1;
+        out.m02 = a0 * b2 + a2 * b3;
+        out.m10 = a1 * b2 + a3 * b3;
+        out.m11 = a0 * b4 + a2 * b5 + a4;
+        out.m12 = a1 * b4 + a3 * b5 + a5;
+
+        return out;
+    }
 }
