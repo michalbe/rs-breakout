@@ -1,3 +1,4 @@
+use crate::game::MAX_CHILDREN;
 use crate::math::mat2d::Mat2d;
 use crate::math::vec2::Vec2;
 use crate::game::Game;
@@ -19,7 +20,7 @@ pub struct Transform2d {
 
     pub entity_id: usize,
     pub parent: Option<usize>,
-    pub children: [Option<usize>; 10],
+    pub children: [Option<usize>; MAX_CHILDREN],
     pub dirty: bool,
 }
 
@@ -45,7 +46,7 @@ impl Transform2d {
                 },
                 entity_id: entity,
                 parent: None,
-                children: Default::default(),
+                children: [None; MAX_CHILDREN],
                 dirty: true,
             });
         }

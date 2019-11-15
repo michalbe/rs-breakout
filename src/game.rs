@@ -16,6 +16,7 @@ use crate::systems::sys_control_block::sys_control_block;
 use crate::systems::sys_control_paddle::sys_control_paddle;
 
 pub const MAX_ENTITIES: usize = 10000;
+pub const MAX_CHILDREN: usize = 70;
 
 pub struct Game {
     pub world: Vec<u32>,
