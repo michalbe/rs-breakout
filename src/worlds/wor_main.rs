@@ -18,7 +18,9 @@ pub fn world_main(game: &mut Game) {
         translation: None,
         rotation: None,
         scale: None,
-        using: vec![],
+        using: vec![
+            Box::new(crate::components::com_shake::Shake::new(Some(0.0), Some(10.0))),
+        ],
         children: None,
     };
 
@@ -38,5 +40,5 @@ pub fn world_main(game: &mut Game) {
 
     camera.children = Some(game_elements);
 
-    game.add(camera);
+    game.camera = game.add(camera);
 }

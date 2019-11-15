@@ -7,6 +7,7 @@ use crate::components::com_draw2d::Draw2d;
 use crate::components::com_transform2d::Transform2d;
 use crate::components::com_controll_ball::ControlBall;
 use crate::components::com_collide::Collide;
+use crate::components::com_shake::Shake;
 use crate::systems::sys_draw2d::sys_draw2d;
 use crate::systems::sys_transform2d::sys_transform2d;
 use crate::systems::sys_move::sys_move;
@@ -14,12 +15,14 @@ use crate::systems::sys_control_ball::sys_control_ball;
 use crate::systems::sys_collide::sys_collide;
 use crate::systems::sys_control_block::sys_control_block;
 use crate::systems::sys_control_paddle::sys_control_paddle;
+use crate::systems::sys_shake::sys_shake;
 
 pub const MAX_ENTITIES: usize = 10000;
 pub const MAX_CHILDREN: usize = 70;
 
 pub struct Game {
     pub world: Vec<u32>,
+    pub camera: usize,
 
     pub window_width: u32,
     pub window_height: u32,
@@ -37,6 +40,7 @@ pub struct Game {
     pub move_component: Vec<Option<Move>>, // 'move' is a reserved keyword in rust
     pub control_ball: Vec<Option<ControlBall>>,
     pub collide: Vec<Option<Collide>>,
+    pub shake: Vec<Option<Shake>>,
 }
 
 impl Game {
@@ -60,6 +64,7 @@ impl Game {
 
         Game {
             world: vec![0; MAX_ENTITIES],
+            camera: 0,
 
             window_width,
             window_height,
@@ -78,6 +83,7 @@ impl Game {
             move_component: vec![None; MAX_ENTITIES],
             control_ball: vec![None; MAX_ENTITIES],
             collide: vec![None; MAX_ENTITIES],
+            shake: vec![None; MAX_ENTITIES],
         }
     }
 
@@ -132,6 +138,7 @@ impl Game {
         sys_control_ball(self, delta);
         sys_control_block(self, delta);
         sys_control_paddle(self, delta);
+        sys_shake(self, delta);
         sys_move(self, delta);
         sys_transform2d(self, delta);
         sys_collide(self, delta);
