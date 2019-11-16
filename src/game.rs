@@ -8,6 +8,7 @@ use crate::components::com_transform2d::Transform2d;
 use crate::components::com_controll_ball::ControlBall;
 use crate::components::com_collide::Collide;
 use crate::components::com_shake::Shake;
+use crate::components::com_fade::Fade;
 use crate::systems::sys_draw2d::sys_draw2d;
 use crate::systems::sys_transform2d::sys_transform2d;
 use crate::systems::sys_move::sys_move;
@@ -41,6 +42,7 @@ pub struct Game {
     pub control_ball: Vec<Option<ControlBall>>,
     pub collide: Vec<Option<Collide>>,
     pub shake: Vec<Option<Shake>>,
+    pub fade: Vec<Option<Fade>>,
 }
 
 impl Game {
@@ -54,11 +56,13 @@ impl Game {
             .build()
             .map_err(|e| e.to_string()).unwrap();
 
-        let canvas = window.into_canvas()
+        let mut canvas = window.into_canvas()
             .target_texture()
             .present_vsync()
             .build()
             .map_err(|e| e.to_string()).unwrap();
+
+        canvas.set_blend_mode(sdl2::render::BlendMode::Blend);
 
         let event_pump = sdl_context.event_pump().unwrap();
 
@@ -84,6 +88,7 @@ impl Game {
             control_ball: vec![None; MAX_ENTITIES],
             collide: vec![None; MAX_ENTITIES],
             shake: vec![None; MAX_ENTITIES],
+            fade: vec![None; MAX_ENTITIES],
         }
     }
 
