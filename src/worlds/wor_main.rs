@@ -26,7 +26,7 @@ pub fn world_main(game: &mut Game) {
 
     let mut game_elements = vec![
         get_paddle((game.window_width / 2) as f32, (game.window_height - 30) as f32),
-        get_ball((game.window_width/2) as f32, (game.window_height/2) as f32),
+        get_ball((game.window_width/2) as f32, (game.window_height - 60) as f32),
     ];
 
 
