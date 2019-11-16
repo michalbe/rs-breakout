@@ -19,12 +19,15 @@ pub fn sys_draw2d(game: &mut Game, _delta: f32) {
 
 fn update(game: &mut Game, entity: usize) {
     if let (Some(transform), Some(draw2d)) = (game.transform[entity], game.draw2d[entity]) {
-        game.canvas.set_draw_color(Color::RGB(draw2d.color[0], draw2d.color[1], draw2d.color[2]));
+        let width = (draw2d.width as f32 * transform.scale.x) as i32;
+        let height = (draw2d.height as f32 * transform.scale.y) as i32;
+
+        game.canvas.set_draw_color(Color::RGBA(draw2d.color[0], draw2d.color[1], draw2d.color[2], draw2d.color[3]));
         game.canvas.fill_rect(Rect::new(
-            transform.world.m11 as i32 - (draw2d.width / 2) as i32,
-            transform.world.m12 as i32 - (draw2d.height / 2) as i32,
-            draw2d.width,
-            draw2d.height)
+            transform.world.m11 as i32 - (width / 2) as i32,
+            transform.world.m12 as i32 - (height / 2) as i32,
+            width as u32,
+            height as u32)
         ).unwrap();
     };
 }
