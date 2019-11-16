@@ -1,3 +1,4 @@
+use crate::blueprints::blu_explosion::get_explosion;
 use crate::components::Has;
 use crate::game::MAX_ENTITIES;
 use crate::game::Game;
@@ -57,6 +58,8 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
                     transform.translation.y += collision.hit.y;
                     control.direction.y *= -1.0;
                 }
+
+                game.add(get_explosion(transform.translation.x, transform.translation.y));
             }
        }
 
