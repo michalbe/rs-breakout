@@ -1,3 +1,4 @@
+use crate::blueprints::blu_ball::get_ball;
 use crate::components::Has;
 use crate::game::MAX_ENTITIES;
 use crate::game::Game;
@@ -26,6 +27,9 @@ fn update(game: &mut Game, entity: usize) {
             fade.step = 0.02;
             game.fade[entity] = Some(fade);
             // game.world[entity] &= Has::Collide as u32;
+            if rand::random::<f32>() > 0.98 {
+                game.add(get_ball((game.window_width/2) as f32, (game.window_height/2) as f32));
+            }
         }
     }
 }
