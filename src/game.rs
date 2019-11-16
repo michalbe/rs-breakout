@@ -90,7 +90,7 @@ impl Game {
             move_component: vec![None; MAX_ENTITIES],
             control_ball: vec![None; MAX_ENTITIES],
             collide: vec![None; MAX_ENTITIES],
-            shake: vec![None; MAX_ENTITIES],
+            shake: std::iter::repeat_with(|| None).take(MAX_ENTITIES).collect(),
             fade: vec![None; MAX_ENTITIES],
         }
     }

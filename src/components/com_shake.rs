@@ -1,7 +1,6 @@
 use crate::game::Game;
 use crate::components::Has;
 
-#[derive(Clone, Copy)]
 pub struct Shake {
     pub duration: f32,
     pub strength: f32,

@@ -46,9 +46,9 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
 
        if let Some(collide) = game.collide[entity] {
             if let Some(collision) = collide.collision {
-                let mut camera_shake = game.shake[game.camera].unwrap();
-                camera_shake.duration = 0.2;
-                game.shake[game.camera] = Some(camera_shake);
+                if let Some(ref mut camera_shake) = game.shake[game.camera] {
+                    camera_shake.duration = 0.2;
+                };
 
                 if collision.hit.x != 0.0 {
                     transform.translation.x += collision.hit.x;
