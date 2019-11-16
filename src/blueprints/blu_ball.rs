@@ -12,7 +12,7 @@ pub fn get_ball(x: f32, y: f32) -> Blueprint {
         scale: None,
         using: vec![
             Box::new(Draw2d::new(Some(20), Some(20), Some([0, 255, 0, 255]))),
-            Box::new(Move::new(Some(Vec2::new(1.0, 1.0)), Some(60.0))),
+            Box::new(Move::new(Some(Vec2::new(1.0, 1.0)), Some(600.0))),
             Box::new(ControlBall::new(None)),
             Box::new(Collide::new(Some(Vec2::new(20.0, 20.0)))),
         ],

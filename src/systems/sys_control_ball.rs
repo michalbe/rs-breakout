@@ -1,3 +1,4 @@
+use crate::blueprints::blu_ball::get_ball;
 use crate::components::Has;
 use crate::game::MAX_ENTITIES;
 use crate::game::Game;
@@ -46,7 +47,7 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
        if let Some(collide) = game.collide[entity] {
             if let Some(collision) = collide.collision {
                 let mut camera_shake = game.shake[game.camera].unwrap();
-                camera_shake.duration = 0.5;
+                camera_shake.duration = 0.2;
                 game.shake[game.camera] = Some(camera_shake);
 
                 if collision.hit.x != 0.0 {
@@ -67,5 +68,10 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
        game.move_component[entity] = Some(move_component);
        game.transform[entity] = Some(transform);
        game.control_ball[entity] = Some(control);
+
+    //    let mut ball_fade = get_ball(transform.translation.x, transform.translation.y);
+    //    ball_fade.using.push(Box::new(crate::components::com_fade::Fade::new(Some(0.1))));
+
+    //    game.add(ball_fade);
     };
 }

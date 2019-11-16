@@ -13,7 +13,7 @@ pub fn get_paddle(x: f32, y: f32) -> Blueprint {
         using: vec![
             Box::new(Draw2d::new(Some(100), Some(20), Some([255, 0, 0, 255]))),
             Box::new(Collide::new(Some(Vec2::new(100.0, 20.0)))),
-            Box::new(Move::new(None, Some(90.0))),
+            Box::new(Move::new(None, Some(600.0))),
             Box::new(ControlPaddle::new()),
         ],
         children: None,
