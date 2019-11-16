@@ -13,7 +13,7 @@ pub fn sys_fade(game: &mut Game, delta: f32) {
 
 }
 
-fn update(game: &mut Game, entity: usize, delta: f32) {
+fn update(game: &mut Game, entity: usize, _delta: f32) {
     if let (
         Some(mut transform), Some(fade), Some(mut draw)
     ) = (
