@@ -31,8 +31,6 @@ pub struct Game {
     pub window_width: u32,
     pub window_height: u32,
 
-    pub last_time: u128,
-
     // pub window: sdl2::video::Window,
     pub canvas: sdl2::render::Canvas<sdl2::video::Window>,
     pub event_pump: sdl2::EventPump,
@@ -75,7 +73,6 @@ impl Game {
             world: vec![0; MAX_ENTITIES],
             camera: 0,
 
-            last_time: 0,
             window_width,
             window_height,
 
