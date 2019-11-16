@@ -1,5 +1,6 @@
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::blueprints::blu_common::Blueprint;
 use crate::components::com_move::Move;
@@ -17,6 +18,8 @@ use crate::systems::sys_collide::sys_collide;
 use crate::systems::sys_control_block::sys_control_block;
 use crate::systems::sys_control_paddle::sys_control_paddle;
 use crate::systems::sys_shake::sys_shake;
+use crate::systems::sys_fade::sys_fade;
+use crate::systems::sys_framerate::sys_framerate;
 
 pub const MAX_ENTITIES: usize = 10000;
 pub const MAX_CHILDREN: usize = 1000;
@@ -27,6 +30,8 @@ pub struct Game {
 
     pub window_width: u32,
     pub window_height: u32,
+
+    pub last_time: u128,
 
     // pub window: sdl2::video::Window,
     pub canvas: sdl2::render::Canvas<sdl2::video::Window>,
@@ -70,6 +75,7 @@ impl Game {
             world: vec![0; MAX_ENTITIES],
             camera: 0,
 
+            last_time: 0,
             window_width,
             window_height,
 
@@ -147,13 +153,17 @@ impl Game {
         sys_control_block(self, delta);
         sys_control_paddle(self, delta);
         sys_shake(self, delta);
+        sys_fade(self, delta);
         sys_move(self, delta);
         sys_transform2d(self, delta);
         sys_collide(self, delta);
         sys_draw2d(self, delta);
+
+        sys_framerate(self, delta);
     }
 
     pub fn start(&mut self) {
+        let mut last_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
         'running: loop {
             for event in self.event_pump.poll_iter() {
                 match event {
@@ -171,7 +181,11 @@ impl Game {
                 }
             }
 
-            self.update(0.16);
+            let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+
+            self.update(((now - last_time) as f32) / 1000.0);
+
+            last_time = now;
 
             self.canvas.present();
         }
