@@ -2,7 +2,6 @@ use crate::math::vec2::Vec2;
 use crate::game::Game;
 use crate::components::Has;
 
-#[derive(Clone, Copy)]
 pub struct Move {
     pub direction: Vec2,
     pub speed: f32,

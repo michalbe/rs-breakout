@@ -15,22 +15,15 @@ pub fn sys_control_paddle(game: &mut Game, _delta: f32) {
 }
 
 fn update(game: &mut Game, entity: usize) {
-    if let (
-        Some(mut move_component),
-    ) = (
-        game.move_component[entity],
-    ) {
+    let move_component = game.move_component[entity].as_mut().unwrap();
 
-        move_component.direction.x = 0.0;
+    move_component.direction.x = 0.0;
 
-        if let Some(_) = game.input_state[Scancode::Left as usize] {
-            move_component.direction.x -= 1.0;
-        }
+    if let Some(_) = game.input_state[Scancode::Left as usize] {
+        move_component.direction.x -= 1.0;
+    }
 
-        if let Some(_) = game.input_state[Scancode::Right as usize] {
-            move_component.direction.x += 1.0;
-        }
-
-        game.move_component[entity] = Some(move_component);
+    if let Some(_) = game.input_state[Scancode::Right as usize] {
+        move_component.direction.x += 1.0;
     }
 }

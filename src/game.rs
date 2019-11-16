@@ -87,7 +87,7 @@ impl Game {
 
             transform: vec![None; MAX_ENTITIES],
             draw2d: vec![None; MAX_ENTITIES],
-            move_component: vec![None; MAX_ENTITIES],
+            move_component: std::iter::repeat_with(|| None).take(MAX_ENTITIES).collect(),
             control_ball: vec![None; MAX_ENTITIES],
             collide: vec![None; MAX_ENTITIES],
             shake: std::iter::repeat_with(|| None).take(MAX_ENTITIES).collect(),

@@ -14,15 +14,13 @@ pub fn sys_move(game: &mut Game, delta: f32) {
 }
 
 fn update(game: &mut Game, entity: usize, delta: f32) {
-    if let (Some(mut transform), Some(move_component)) = (game.transform[entity], game.move_component[entity]) {
-        if move_component.direction.x != 0.0 || move_component.direction.y != 0.0 {
-            transform.translation.x += move_component.direction.x * move_component.speed * delta;
-            transform.translation.y += move_component.direction.y * move_component.speed * delta;
+    let mut transform = game.transform[entity].as_mut().unwrap();
+    let move_component = game.move_component[entity].as_mut().unwrap();
 
-            transform.dirty = true;
+    if move_component.direction.x != 0.0 || move_component.direction.y != 0.0 {
+        transform.translation.x += move_component.direction.x * move_component.speed * delta;
+        transform.translation.y += move_component.direction.y * move_component.speed * delta;
 
-            // TODO: This is terrible, fixme!
-            game.transform[entity] = Some(transform);
-        }
-    };
+        transform.dirty = true;
+    }
 }
