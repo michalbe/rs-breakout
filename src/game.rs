@@ -18,7 +18,7 @@ use crate::systems::sys_control_paddle::sys_control_paddle;
 use crate::systems::sys_shake::sys_shake;
 
 pub const MAX_ENTITIES: usize = 10000;
-pub const MAX_CHILDREN: usize = 70;
+pub const MAX_CHILDREN: usize = 1000;
 
 pub struct Game {
     pub world: Vec<u32>,
@@ -110,6 +110,9 @@ impl Game {
             Some(children_list) => {
                 let mut i = 0;
                 for child in children_list {
+                    if i >= MAX_CHILDREN {
+                        panic!(format!("Reached max number of children per entity ({}). Modify settings in game.rs.", MAX_CHILDREN))
+                    }
                     let child_id = self.add(child);
 
                     // XXX: It's safe to unwrap here, we know those values are there.

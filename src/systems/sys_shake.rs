@@ -21,12 +21,20 @@ fn update(game: &mut Game, entity: usize, delta: f32) {
             transform.translation.x = shake.strength - rand::random::<f32>() * (shake.strength * 2.0);
             transform.translation.y = shake.strength - rand::random::<f32>() * (shake.strength * 2.0);
 
+            game.clear_color[0] = (rand::random::<f32>() * 255.0) as u8;
+            game.clear_color[1] = (rand::random::<f32>() * 255.0) as u8;
+            game.clear_color[2] = (rand::random::<f32>() * 255.0) as u8;
+
             transform.dirty = true;
 
             if shake.duration <= 0.0 {
                 shake.duration = 0.0;
                 transform.translation.x = 0.0;
                 transform.translation.y = 0.0;
+                game.clear_color[0] = 0;
+                game.clear_color[1] = 0;
+                game.clear_color[2] = 0;
+
             }
 
             game.transform[entity] = Some(transform);

@@ -5,11 +5,11 @@ use crate::blueprints::blu_ball::get_ball;
 use crate::game::Game;
 
 pub fn world_main(game: &mut Game) {
-    let column_count = 5;
-    let row_count = 5;
-    let block_width = 100;
-    let block_height = 20;
-    let margin = 10;
+    let column_count = 10;
+    let row_count = 10;
+    let block_width = 50;
+    let block_height = 15;
+    let margin = 5;
     let grid_width = block_width * column_count + margin * (column_count - 1);
     let starting_x = (game.window_width - grid_width)/2;
     let starting_y = 50;
@@ -19,14 +19,14 @@ pub fn world_main(game: &mut Game) {
         rotation: None,
         scale: None,
         using: vec![
-            Box::new(crate::components::com_shake::Shake::new(Some(0.0), Some(10.0))),
+            Box::new(crate::components::com_shake::Shake::new(Some(0.0), Some(20.0))),
         ],
         children: None,
     };
 
     let mut game_elements = vec![
         get_paddle((game.window_width / 2) as f32, (game.window_height - 30) as f32),
-        get_ball((game.window_width/2) as f32, (game.window_height/2) as f32)
+        get_ball((game.window_width/2) as f32, (game.window_height/2) as f32),
     ];
 
 
