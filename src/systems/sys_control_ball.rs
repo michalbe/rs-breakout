@@ -64,14 +64,23 @@ fn update(game: &mut Game, entity: usize, _delta: f32) {
        move_component.direction.x = control.direction.x;
        move_component.direction.y = control.direction.y;
 
+        let ball_fade = crate::blueprints::blu_common::Blueprint {
+            translation: Some(crate::math::vec2::Vec2::new(transform.translation.x, transform.translation.y)),
+            rotation: None,
+            scale: None,
+            using: vec![
+                Box::new(crate::components::com_draw2d::Draw2d::new(Some(20), Some(20), Some([0, 255, 0, 255]))),
+                Box::new(crate::components::com_fade::Fade::new(Some(0.05))),
+            ],
+            children: None,
+        };
+
+        game.add(ball_fade);
+
+
        // TODO: This is terrible, fixme!
        game.move_component[entity] = Some(move_component);
        game.transform[entity] = Some(transform);
        game.control_ball[entity] = Some(control);
-
-    //    let mut ball_fade = get_ball(transform.translation.x, transform.translation.y);
-    //    ball_fade.using.push(Box::new(crate::components::com_fade::Fade::new(Some(0.1))));
-
-    //    game.add(ball_fade);
     };
 }

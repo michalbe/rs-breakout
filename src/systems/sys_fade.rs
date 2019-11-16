@@ -21,13 +21,14 @@ fn update(game: &mut Game, entity: usize, delta: f32) {
     ) {
 
         if draw.color[3] > 0 {
-            let factor = 1.0 / fade.step;
-            draw.color[3] = (draw.color[3] as f32 * factor) as u8;
-            transform.scale.x = factor;
-            transform.scale.y = factor;
+            let step = (255.0 * fade.step) as u8;
+            let final_color = draw.color[3] - step;
+            draw.color[3] = final_color as u8;
+            transform.scale.x -= fade.step;
+            transform.scale.y -= fade.step;
             transform.dirty = true;
 
-            if draw.color[3] <= 0 {
+            if transform.scale.x <= 0.0 {
                 game.destroy(entity);
             }
 
