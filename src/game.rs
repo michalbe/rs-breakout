@@ -31,6 +31,8 @@ pub struct Game {
     pub window_width: u32,
     pub window_height: u32,
 
+    pub last_time: u128,
+
     // pub window: sdl2::video::Window,
     pub canvas: sdl2::render::Canvas<sdl2::video::Window>,
     pub event_pump: sdl2::EventPump,
@@ -75,6 +77,8 @@ impl Game {
 
             window_width,
             window_height,
+
+            last_time: 0,
 
             // window,
             canvas,
@@ -160,14 +164,21 @@ impl Game {
     }
 
     pub fn start(&mut self) {
-        let mut last_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+        self.last_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
         'running: loop {
-            for event in self.event_pump.poll_iter() {
+            let res = self.main_loop();
+            if res == false {
+                break 'running;
+            }
+        }
+    }
+
+    pub fn main_loop(&mut self) -> bool{
+                    for event in self.event_pump.poll_iter() {
                 match event {
                     Event::Quit {..} | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
-                        break 'running
+                        return false;
                     },
-                    // TODO: FIXME!
                     Event::KeyDown { scancode: Some(key_code), repeat: false, .. } => {
                         self.input_state[key_code as usize] = Some(true);
                     },
@@ -180,11 +191,12 @@ impl Game {
 
             let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
 
-            self.update(((now - last_time) as f32) / 1000.0);
+            self.update(((now - self.last_time) as f32) / 1000.0);
 
-            last_time = now;
+            self.last_time = now;
 
             self.canvas.present();
-        }
+
+            true
     }
 }
